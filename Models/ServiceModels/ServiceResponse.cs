@@ -8,7 +8,8 @@ namespace Simple_Stream_UWP.Models.ServiceModels
 {
     public class ServiceResponse
     {
-        public Exception ExceptionContainer { get; set; }
+        // For exception handling purposes.
+        public Exception ExceptionContainer { get; set; } 
         public bool IsSuccess
         {
             get
@@ -16,6 +17,8 @@ namespace Simple_Stream_UWP.Models.ServiceModels
                 return ExceptionContainer == null ? true : false;
             }
         }
+
+        // Raw json data fetched from server.
         public object Data { get; set; }
     }
 }
