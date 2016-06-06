@@ -97,7 +97,18 @@
     </Compile>
     <Compile Include="Base\BasePage.cs" />
     <Compile Include="Base\ViewModel.cs" />
+    <Compile Include="ConfigurationContext.cs" />
+    <Compile Include="Interfaces\ITwitchRepository.cs" />
+    <Compile Include="Interfaces\ITwitchService.cs" />
+    <Compile Include="Models\FeaturedGame.cs" />
+    <Compile Include="Models\Game.cs" />
+    <Compile Include="Models\Logo.cs" />
+    <Compile Include="Models\ServiceModels\ServiceResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Interfaces\IPageDialogService.cs" />
+    <Compile Include="Services\PageDialogService.cs" />
+    <Compile Include="Services\TwitchRepository.cs" />
+    <Compile Include="Services\TwitchService.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ExtendedSplashScreen.xaml.cs">
       <DependentUpon>ExtendedSplashScreen.xaml</DependentUpon>
@@ -113,7 +124,6 @@
     <None Include="Simple Stream UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\pp.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -139,6 +149,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
