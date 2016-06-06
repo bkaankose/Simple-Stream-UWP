@@ -27,10 +27,20 @@ namespace Simple_Stream_UWP
         public App()
         {
             InitializeComponent();
+            ExtendedSplashScreenFactory = (splashscreen) => new ExtendedSplashScreen(splashscreen);
         }
         protected override async Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
-            NavigationService.Navigate("Main", null);
+            if (args.PreviousExecutionState != ApplicationExecutionState.Running)
+                await this.InitializeServices();
+
+            this.NavigationService.Navigate("Main", null);
+        }
+
+        private async Task InitializeServices()
+        {
+            // Here we're going to load the application and check the required connections.
+            await Task.Delay(7000);
         }
     }
 }
