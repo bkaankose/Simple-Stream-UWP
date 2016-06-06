@@ -17,7 +17,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Simple_Stream_UWP
 {
-    public sealed partial class ExtendedSplashScreen : BasePage
+    public sealed partial class ExtendedSplashScreen : Page
     {
         private readonly SplashScreen splashScreen;
 
