@@ -9,10 +9,12 @@ namespace Simple_Stream_UWP
     public class ConfigurationContext
     {
         public static string BASE_URL;
+        public static int FEATURED_GAME_COUNT;
 
         static ConfigurationContext()
         {
-            BASE_URL = "http://api.twitch.tv/api/";
+            BASE_URL = "https://api.twitch.tv/kraken/";
+            FEATURED_GAME_COUNT = 30;
         }
     }
 }
