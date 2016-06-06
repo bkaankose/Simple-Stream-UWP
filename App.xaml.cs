@@ -19,6 +19,9 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using System.Threading.Tasks;
+using Simple_Stream_UWP.Interfaces;
+using Simple_Stream_UWP.Services;
+using Microsoft.Practices.Unity;
 
 namespace Simple_Stream_UWP
 {
@@ -34,13 +37,25 @@ namespace Simple_Stream_UWP
             if (args.PreviousExecutionState != ApplicationExecutionState.Running)
                 await this.InitializeServices();
 
-            this.NavigationService.Navigate("Main", null);
+            NavigationService.Navigate("Main", null);
         }
 
         private async Task InitializeServices()
         {
             // Here we're going to load the application and check the required connections.
-            await Task.Delay(7000);
+            RegisterServices();
+            await Task.Delay(1000); // I just want to see that splash beauty for a while...
         }
+
+        private void RegisterServices()
+        {
+            Container.RegisterInstance(NavigationService);
+            Container.RegisterInstance(SessionStateService);
+            Container.RegisterInstance(DeviceGestureService);
+
+            Container.RegisterInstance<ITwitchService>(new TwitchService());
+            Container.RegisterInstance<ITwitchRepository>(new TwitchRepository(Container.Resolve<ITwitchService>()));
+            Container.RegisterInstance<IPageDialogService>(new PageDialogService());
+       }
     }
 }
