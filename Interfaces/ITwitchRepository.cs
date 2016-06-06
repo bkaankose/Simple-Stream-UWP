@@ -10,6 +10,7 @@ namespace Simple_Stream_UWP.Interfaces
 {
     public interface ITwitchRepository
     {
-        Task<ObservableCollection<Game>> GetFeaturedGames();
+        Task<ObservableCollection<FeaturedGame>> GetFeaturedGames();
+        Task ReloadFeaturedGames();
     }
 }
