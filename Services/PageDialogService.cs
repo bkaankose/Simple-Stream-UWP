@@ -29,7 +29,7 @@ namespace Simple_Stream_UWP.Services
         /// <returns></returns>
         public async Task<bool> DisplayConfirmationDialogAsync(string question, string title = "")
         {
-            var questionDialog = new MessageDialog(question);
+            var questionDialog = new MessageDialog(question,title);
             questionDialog.Commands.Add(new UICommand() { Id = 0, Label = "Evet" });
             questionDialog.Commands.Add(new UICommand() { Id = 1, Label = "Hayır" });
             
