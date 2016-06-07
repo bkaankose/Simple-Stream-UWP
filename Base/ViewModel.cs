@@ -20,18 +20,22 @@ namespace Simple_Stream_UWP.Base
     {
         internal IDeviceGestureService _gestureService;
         internal INavigationService _navigationService;
-        private IDeviceGestureService gestureService;
 
         public DelegateCommand BackCommand { get; set; } // Default back command for specific page.
+
+        // General busy indicator property for specific view model.
+        private bool _isBusy;
+
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set { _isBusy = value; OnPropertyChanged(); }
+        }
+
         public ViewModel(IDeviceGestureService gestureService,INavigationService navigationService)
         {
             _gestureService = gestureService;
             _navigationService = navigationService;
-        }
-
-        public ViewModel(IDeviceGestureService gestureService)
-        {
-            this.gestureService = gestureService;
         }
 
         public virtual void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
