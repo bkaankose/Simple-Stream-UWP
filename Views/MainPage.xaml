@@ -27,12 +27,18 @@
         </CommandBar>
     </base:BasePage.BottomAppBar>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <GridView Grid.Row="1" ItemsSource="{Binding FeaturedGames}" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Margin="12" Text="Featured Games" Style="{StaticResource HeaderTextBlockStyle}" />
+        <GridView Margin="12" Grid.Row="1" ItemsSource="{Binding FeaturedGames}" HorizontalAlignment="Left" ScrollViewer.VerticalScrollBarVisibility="Hidden">
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <controls:FeaturedGameCardControl DataContext="{Binding}" Margin="5" />
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
+        <ProgressRing IsActive="{Binding IsBusy}" Width="75" Height="75" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF5DF09E" Grid.Row="1" />
     </Grid>
 </base:BasePage>
