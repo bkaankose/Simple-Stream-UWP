@@ -7,6 +7,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Simple_Stream_UWP.Views"
     xmlns:controls="using:Simple_Stream_UWP.Controls"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     x:Name="rootFrame"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -32,12 +34,17 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock Margin="12" Text="Featured Games" Style="{StaticResource HeaderTextBlockStyle}" />
-        <GridView Margin="12" Grid.Row="1" ItemsSource="{Binding FeaturedGames}" HorizontalAlignment="Left" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+        <GridView Margin="12" Grid.Row="1" ItemsSource="{Binding FeaturedGames}" HorizontalAlignment="Left" ScrollViewer.VerticalScrollBarVisibility="Hidden" IsItemClickEnabled="True" SelectionMode="None">
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <controls:FeaturedGameCardControl DataContext="{Binding}" Margin="5" />
                 </DataTemplate>
             </GridView.ItemTemplate>
+            <i:Interaction.Behaviors>
+                <core:EventTriggerBehavior EventName="ItemClick">
+                    <core:InvokeCommandAction Command="{Binding GameClickedCommand}" InputConverter="{StaticResource itemClickedConverter}"/>
+                </core:EventTriggerBehavior>
+            </i:Interaction.Behaviors>
         </GridView>
         <ProgressRing IsActive="{Binding IsBusy}" Width="75" Height="75" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF5DF09E" Grid.Row="1" />
     </Grid>

@@ -17,7 +17,6 @@ namespace Simple_Stream_UWP.ViewModels
     public class MainPageViewModel : ViewModel
     {
         #region Properties
-
         private string _queryString;
 
         public string QueryString
@@ -42,9 +41,10 @@ namespace Simple_Stream_UWP.ViewModels
 
         #endregion
         #region Commands
-
+       
         public DelegateCommand QueryCommand { get; set; }
         public DelegateCommand RefreshFeaturedGamesCommand { get; set; }
+        public DelegateCommand<FeaturedGame> GameClickedCommand { get; set; }
 
         #endregion
         public MainPageViewModel(IDeviceGestureService gestureService,INavigationService navigationService, ITwitchRepository twitchRepository,IPageDialogService dialogService) : base(gestureService,navigationService)
@@ -54,6 +54,10 @@ namespace Simple_Stream_UWP.ViewModels
             BackCommand = new DelegateCommand(() => TerminateAppliation());
             QueryCommand = new DelegateCommand(Query);
             RefreshFeaturedGamesCommand = new DelegateCommand(async () => await RefreshFeaturedGames());
+            GameClickedCommand = new DelegateCommand<FeaturedGame>((FeaturedGame game) =>
+            {
+                _navigationService.Navigate("GameDetail", game.GameObject.Name); // parameter: game name.
+            });
         }
 
         public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
@@ -64,8 +68,10 @@ namespace Simple_Stream_UWP.ViewModels
         
         private async Task RefreshFeaturedGames()
         {
+            IsBusy = true;
             await _twitchRepository.ReloadFeaturedGames();
             FeaturedGames = await _twitchRepository.GetFeaturedGames();
+            IsBusy = false;
         }
 
         private async void TerminateAppliation()
@@ -77,7 +83,7 @@ namespace Simple_Stream_UWP.ViewModels
 
         private void Query()
         {
-
+            
         }
     }
 }
