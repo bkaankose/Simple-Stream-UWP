@@ -34,43 +34,37 @@ namespace Simple_Stream_UWP.ViewModels
             set { _featuredGames = value; OnPropertyChanged(); }
         }
 
-
-        public double MaxWidth
-        {
-            get { return ConfigurationContext.DEFAULT_MAX_LOGO_WIDTH; }
-            set { ConfigurationContext.DEFAULT_MAX_LOGO_WIDTH = value; OnPropertyChanged(); }
-        }
-
-        public double MaxHeight
-        {
-            get { return ConfigurationContext.DEFAULT_MAX_LOGO_HEIGHT; }
-            set { ConfigurationContext.DEFAULT_MAX_LOGO_HEIGHT = value; OnPropertyChanged(); }
-        }
-
         #endregion
         #region Services & Repositories
 
         private readonly ITwitchRepository _twitchRepository;
         private readonly IPageDialogService _dialogService;
 
+        #endregion
+        #region Commands
+
+        public DelegateCommand QueryCommand { get; set; }
+        public DelegateCommand RefreshFeaturedGamesCommand { get; set; }
+
+        #endregion
         public MainPageViewModel(IDeviceGestureService gestureService,INavigationService navigationService, ITwitchRepository twitchRepository,IPageDialogService dialogService) : base(gestureService,navigationService)
         {
             _twitchRepository = twitchRepository;
             _dialogService = dialogService;
             BackCommand = new DelegateCommand(() => TerminateAppliation());
             QueryCommand = new DelegateCommand(Query);
+            RefreshFeaturedGamesCommand = new DelegateCommand(async () => await RefreshFeaturedGames());
         }
 
-        #endregion
-        #region Commands
-
-        public DelegateCommand QueryCommand { get; set; }
-
-        #endregion
         public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
             base.OnNavigatedTo(e, viewModelState);
-            var ss = Window.Current;
+            FeaturedGames = await _twitchRepository.GetFeaturedGames();
+        }
+        
+        private async Task RefreshFeaturedGames()
+        {
+            await _twitchRepository.ReloadFeaturedGames();
             FeaturedGames = await _twitchRepository.GetFeaturedGames();
         }
 
