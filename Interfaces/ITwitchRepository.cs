@@ -12,5 +12,6 @@ namespace Simple_Stream_UWP.Interfaces
     {
         Task<ObservableCollection<FeaturedGame>> GetFeaturedGames();
         Task ReloadFeaturedGames();
+        Task<ObservableCollection<StreamInformation>> GetGameDetails(string gameName);
     }
 }

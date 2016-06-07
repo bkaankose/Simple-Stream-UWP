@@ -34,5 +34,10 @@ namespace Simple_Stream_UWP.Services
         {
             FeaturedGames = await _twitchService.GetFeaturedChannels();
         }
+
+        public async Task<ObservableCollection<StreamInformation>> GetGameDetails(string gameName)
+        {
+            return await _twitchService.GetGameDetails(gameName);
+        }
     }
 }

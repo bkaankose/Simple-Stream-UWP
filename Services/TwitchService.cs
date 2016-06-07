@@ -31,6 +31,18 @@ namespace Simple_Stream_UWP.Services
             return ParseResponse<ObservableCollection<FeaturedGame>>(response);
         }
 
+        
+
+        public async Task<ObservableCollection<StreamInformation>> GetGameDetails(string gameName)
+        {
+            var response = await FetchDataFromService($"streams?game={gameName}");
+            dynamic d = JObject.Parse(response.Data.ToString());
+            response.Data = d.streams;
+            return ParseResponse<ObservableCollection<StreamInformation>>(response);
+        }
+
+        #region Helpers
+
         private T ParseResponse<T>(ServiceResponse response)
         {
             if (response.IsSuccess)
@@ -40,13 +52,12 @@ namespace Simple_Stream_UWP.Services
                 }
                 catch
                 { // Deserialization error.
-                    if(Debugger.IsAttached) throw;
+                    if (Debugger.IsAttached) throw;
                     return default(T);
                 }
             else
                 return default(T);
         }
-
         internal async Task<ServiceResponse> FetchDataFromService(string endpoint)
         {
             ServiceResponse response = new ServiceResponse();
@@ -60,10 +71,12 @@ namespace Simple_Stream_UWP.Services
                     throw;
 
                 response.ExceptionContainer = ex;
-                response.Data = null;  
+                response.Data = null;
             }
 
             return response;
         }
+
+        #endregion
     }
 }

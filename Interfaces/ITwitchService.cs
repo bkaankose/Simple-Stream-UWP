@@ -12,5 +12,6 @@ namespace Simple_Stream_UWP.Interfaces
     public interface ITwitchService
     {
         Task<ObservableCollection<FeaturedGame>> GetFeaturedChannels();
+        Task<ObservableCollection<StreamInformation>> GetGameDetails(string gameName);
     }
 }
