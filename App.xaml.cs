@@ -60,11 +60,5 @@ namespace Simple_Stream_UWP
             Container.RegisterInstance<ITwitchRepository>(new TwitchRepository(Container.Resolve<ITwitchService>()));
             Container.RegisterInstance<IPageDialogService>(new PageDialogService());
        }
-
-        protected override void OnRegisterKnownTypesForSerialization()
-        {
-            // Register known types, otherwise Session State Service will fail on resuming.
-            SessionStateService.RegisterKnownType(typeof(FeaturedGame));
-        }
     }
 }
