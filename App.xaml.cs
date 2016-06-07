@@ -44,7 +44,9 @@ namespace Simple_Stream_UWP
         {
             // Here we're going to load the application and check the required connections.
             RegisterServices();
-            await Task.Delay(1000); // I just want to see that splash beauty for a while...
+
+            // Load featured games for MainPage instead of doing it inside.
+            await Container.Resolve<ITwitchRepository>().GetFeaturedGames();
         }
 
         private void RegisterServices()
