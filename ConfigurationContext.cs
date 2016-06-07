@@ -18,7 +18,7 @@ namespace Simple_Stream_UWP
             BASE_URL = "https://api.twitch.tv/kraken/";
             FEATURED_GAME_COUNT = 30;
             DEFAULT_MAX_LOGO_WIDTH = 225;
-            DEFAULT_MAX_LOGO_HEIGHT = 365;
+            DEFAULT_MAX_LOGO_HEIGHT = 325;
         }
     }
 }
