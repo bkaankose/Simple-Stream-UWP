@@ -3,7 +3,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Simple_Stream_UWP"
-    xmlns:windows="using:Prism.Unity.Windows"
-    RequestedTheme="Light">
+    xmlns:windows="using:Prism.Unity.Windows">
 
+    <windows:PrismUnityApplication.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="StyleResources.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </windows:PrismUnityApplication.Resources>
+    
 </windows:PrismUnityApplication>
