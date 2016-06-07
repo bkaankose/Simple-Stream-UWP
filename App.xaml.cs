@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using Simple_Stream_UWP.Interfaces;
 using Simple_Stream_UWP.Services;
 using Microsoft.Practices.Unity;
+using Simple_Stream_UWP.Models;
 
 namespace Simple_Stream_UWP
 {
@@ -59,5 +60,11 @@ namespace Simple_Stream_UWP
             Container.RegisterInstance<ITwitchRepository>(new TwitchRepository(Container.Resolve<ITwitchService>()));
             Container.RegisterInstance<IPageDialogService>(new PageDialogService());
        }
+
+        protected override void OnRegisterKnownTypesForSerialization()
+        {
+            // Register known types, otherwise Session State Service will fail on resuming.
+            SessionStateService.RegisterKnownType(typeof(FeaturedGame));
+        }
     }
 }
