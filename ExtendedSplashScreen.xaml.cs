@@ -27,7 +27,11 @@ namespace Simple_Stream_UWP
 
             this.InitializeComponent();
 
-            this.SizeChanged += ExtendedSplashScreen_SizeChanged;
+            this.Loaded += (c, r) =>
+            {
+                this.SizeChanged += ExtendedSplashScreen_SizeChanged;
+            };
+            
             this.splashImage.ImageOpened += splashImage_ImageOpened;
         }
 
