@@ -9,7 +9,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="StyleResources.xaml" />
-                <ResourceDictionary Source="ConverterResources.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </windows:PrismUnityApplication.Resources>
