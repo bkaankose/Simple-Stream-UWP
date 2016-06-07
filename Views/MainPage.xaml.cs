@@ -1,4 +1,5 @@
 ﻿using Simple_Stream_UWP.Base;
+using Simple_Stream_UWP.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,6 +22,17 @@ namespace Simple_Stream_UWP.Views
         public MainPage()
         {
             this.InitializeComponent();
+        }
+
+        private void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if(e.Key == Windows.System.VirtualKey.Enter)
+                (this.DataContext as MainPageViewModel).QueryCommand.Execute();
+        }
+
+        private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            (this.DataContext as MainPageViewModel).QueryCommand.Execute();
         }
     }
 }
