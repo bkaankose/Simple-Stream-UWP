@@ -100,6 +100,7 @@
     <Compile Include="ConfigurationContext.cs" />
     <Compile Include="Interfaces\ITwitchRepository.cs" />
     <Compile Include="Interfaces\ITwitchService.cs" />
+    <Compile Include="Models\BoxLogo.cs" />
     <Compile Include="Models\FeaturedGame.cs" />
     <Compile Include="Models\Game.cs" />
     <Compile Include="Models\Logo.cs" />
@@ -124,6 +125,7 @@
     <None Include="Simple Stream UWP_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\sslogo.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
