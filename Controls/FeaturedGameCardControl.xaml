@@ -31,11 +31,6 @@
                 <TextBlock Grid.Row="1" Text="{Binding ViewerCount}" FontFamily="Segoe UI Light" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="13" />
             </StackPanel>
         </Grid>
-        
-        <!-- Favorite area -->
-        <Grid HorizontalAlignment="Right" VerticalAlignment="Top">
-            
-        </Grid>
     </Grid>
 
 </UserControl>
