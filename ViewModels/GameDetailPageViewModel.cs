@@ -8,7 +8,8 @@ using Prism.Windows.AppModel;
 using Prism.Windows.Navigation;
 using Simple_Stream_UWP.Interfaces;
 using Prism.Commands;
-
+using System.Collections.ObjectModel;
+using Simple_Stream_UWP.Models;
 
 namespace Simple_Stream_UWP.ViewModels
 {
@@ -22,8 +23,23 @@ namespace Simple_Stream_UWP.ViewModels
         #endregion
 
         #region Properties
-        private string _currentGameName = string.Empty;
-        
+
+        private string _currentGameName;
+
+        public string CurrentGameName
+        {
+            get { return _currentGameName; }
+            set { _currentGameName = value; OnPropertyChanged(); }
+        }
+
+
+        private ObservableCollection<StreamInformation> _streamInformations;
+
+        public ObservableCollection<StreamInformation> StreamInformations
+        {
+            get { return _streamInformations; }
+            set { _streamInformations = value; OnPropertyChanged(); }
+        }
 
         #endregion
 
@@ -41,8 +57,11 @@ namespace Simple_Stream_UWP.ViewModels
         public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
             base.OnNavigatedTo(e, viewModelState);
-            _currentGameName = e.Parameter.ToString(); // Game name.
-            var det = await _twitchRepository.GetGameDetails(_currentGameName);
+            CurrentGameName = e.Parameter.ToString(); // Game name.
+
+            IsBusy = true;
+            StreamInformations = await _twitchRepository.GetGameDetails(_currentGameName);
+            IsBusy = false;
         }
     }
 }
