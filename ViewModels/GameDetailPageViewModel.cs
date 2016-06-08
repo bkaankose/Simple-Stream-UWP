@@ -23,6 +23,7 @@ namespace Simple_Stream_UWP.ViewModels
         #endregion
 
         #region Properties
+        private StreamInformation latestSelectedStreamInformation;
 
         private string _currentGameName;
 
@@ -39,6 +40,14 @@ namespace Simple_Stream_UWP.ViewModels
         {
             get { return _streamInformations; }
             set { _streamInformations = value; OnPropertyChanged(); }
+        }
+
+        private StreamInformation _selectedStreamInformation;
+
+        public StreamInformation SelectedStreamInformation
+        {
+            get { return _selectedStreamInformation; }
+            set { _selectedStreamInformation = value;  OnPropertyChanged(); }
         }
 
         #endregion
@@ -58,9 +67,25 @@ namespace Simple_Stream_UWP.ViewModels
             base.OnNavigatedTo(e, viewModelState);
             CurrentGameName = e.Parameter.ToString(); // Game name.
 
-            IsBusy = true;
+            // Loading mechanism could be better.
+            IsBusy = true; 
             StreamInformations = await _twitchRepository.GetGameDetails(_currentGameName);
             IsBusy = false;
+
+            this.PropertyChanged += PropChanged;
+        }
+
+        private void PropChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == nameof(SelectedStreamInformation) && SelectedStreamInformation != null && latestSelectedStreamInformation != SelectedStreamInformation)
+            { // New information selected, show options dialog and hide the previous one.
+                if (latestSelectedStreamInformation != null)
+                    latestSelectedStreamInformation.IsSelected = false;
+
+                SelectedStreamInformation.IsSelected = true;
+
+                latestSelectedStreamInformation = SelectedStreamInformation;
+            }
         }
     }
 }
