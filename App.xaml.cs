@@ -23,6 +23,7 @@ using Simple_Stream_UWP.Interfaces;
 using Simple_Stream_UWP.Services;
 using Microsoft.Practices.Unity;
 using Simple_Stream_UWP.Models;
+using Prism.Windows.AppModel;
 
 namespace Simple_Stream_UWP
 {
@@ -48,6 +49,11 @@ namespace Simple_Stream_UWP
 
             // Load featured games for MainPage instead of doing it inside.
             await Container.Resolve<ITwitchRepository>().GetFeaturedGames();
+        }
+
+        protected override IDeviceGestureService OnCreateDeviceGestureService()
+        {
+            return new Services.DeviceGestureService();
         }
 
         private void RegisterServices()

@@ -119,6 +119,7 @@
     <Compile Include="Models\StreamInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\IPageDialogService.cs" />
+    <Compile Include="Services\DeviceGestureService.cs" />
     <Compile Include="Services\PageDialogService.cs" />
     <Compile Include="Services\TwitchRepository.cs" />
     <Compile Include="Services\TwitchService.cs" />

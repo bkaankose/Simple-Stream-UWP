@@ -48,10 +48,9 @@ namespace Simple_Stream_UWP.Base
 
         private async void ShellBackRequested(object sender, DeviceGestureEventArgs e)
         {
+            e.Handled = true;
             if (BackCommand != null)
                 await BackCommand.Execute();
-
-            e.Handled = true;
         }
 
         public virtual void OnNavigatingFrom(NavigatingFromEventArgs e, Dictionary<string, object> viewModelState, bool suspending)
