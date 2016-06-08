@@ -22,6 +22,7 @@ namespace Simple_Stream_UWP.Views
         public MainPage()
         {
             this.InitializeComponent();
+            this.NavigationCacheMode = NavigationCacheMode.Enabled;
             featuredGamesGridView.SizeChanged += GridViewSizeChanged;
             
         }
