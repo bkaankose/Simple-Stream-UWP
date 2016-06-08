@@ -29,7 +29,7 @@
         </CommandBar>
     </base:BasePage.BottomAppBar>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <GridView Margin="12" Grid.Row="1" ItemsSource="{Binding FeaturedGames}" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden" IsItemClickEnabled="True" SelectionMode="None" Visibility="{Binding IsBusy,Converter={StaticResource boolToVisibilityReverse}}" Header="Featured Games">
+        <GridView x:Name="featuredGamesGridView" Margin="12" Grid.Row="1" ItemsSource="{Binding FeaturedGames}" HorizontalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Hidden" IsItemClickEnabled="True" SelectionMode="None" Visibility="{Binding IsBusy,Converter={StaticResource boolToVisibilityReverse}}" Header="Featured Games">
             <GridView.HeaderTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

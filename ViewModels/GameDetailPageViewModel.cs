@@ -53,7 +53,6 @@ namespace Simple_Stream_UWP.ViewModels
             _dialogService = dialogService;
             BackCommand = new DelegateCommand(() => _navigationService.GoBack());
         }
-
         public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
             base.OnNavigatedTo(e, viewModelState);

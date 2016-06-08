@@ -19,8 +19,6 @@ namespace Simple_Stream_UWP.Controls
     {
         public FeaturedGameCardControl()
         {
-            this.Width = ConfigurationContext.DEFAULT_MAX_LOGO_WIDTH;
-            this.Height = ConfigurationContext.DEFAULT_MAX_LOGO_HEIGHT;
             this.InitializeComponent();
         }
 

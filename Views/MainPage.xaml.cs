@@ -22,6 +22,18 @@ namespace Simple_Stream_UWP.Views
         public MainPage()
         {
             this.InitializeComponent();
+            featuredGamesGridView.SizeChanged += GridViewSizeChanged;
+            
+        }
+        private void GridViewSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var panel = (ItemsWrapGrid)featuredGamesGridView.ItemsPanelRoot;
+            if(e.NewSize.Width < 600)
+                panel.ItemWidth = panel.ItemHeight = e.NewSize.Width / 2;
+            else if(e.NewSize.Width > 600 && e.NewSize.Width < 1200)
+                panel.ItemWidth = panel.ItemHeight = e.NewSize.Width / 3;
+            else
+                panel.ItemWidth = panel.ItemHeight = e.NewSize.Width / 5;
         }
 
         private void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)

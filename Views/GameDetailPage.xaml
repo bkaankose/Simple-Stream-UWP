@@ -13,7 +13,13 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <GridView ItemsSource="{Binding StreamInformations}" HorizontalAlignment="Center" ScrollViewer.VerticalScrollBarVisibility="Hidden" IsItemClickEnabled="True" SelectionMode="None">
+        <GridView x:Name="streamsGridView" ItemsSource="{Binding StreamInformations}" HorizontalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Hidden" IsItemClickEnabled="True" SelectionMode="None">
+            <GridView.ItemContainerStyle>
+                <Style TargetType="GridViewItem">
+                    <Setter Property="VerticalContentAlignment" Value="Top" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </GridView.ItemContainerStyle>
             <GridView.HeaderTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

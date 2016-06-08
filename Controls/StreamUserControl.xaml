@@ -9,7 +9,7 @@
     d:DesignHeight="200"
     d:DesignWidth="500">
 
-    <Grid Width="500" Height="150" HorizontalAlignment="Stretch" Background="#FFFDFDFD">
+    <Grid Height="175" HorizontalAlignment="Stretch" Background="#FFFDFDFD">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*" />
             <ColumnDefinition Width="6*" />
@@ -31,7 +31,7 @@
                 <Grid Background="Black" Opacity="0.8" />
                 <TextBlock Text="{Binding Channel.ChannelName}" Foreground="White" HorizontalAlignment="Stretch" TextAlignment="Center" FontSize="17" Margin="0,2" FontWeight="SemiBold" />
             </Grid>
-            <TextBlock Text="{Binding Channel.Status}" Foreground="Black" HorizontalAlignment="Stretch" TextAlignment="Center" FontSize="18" Grid.Row="1" VerticalAlignment="Center" Margin="4" TextWrapping="Wrap" />
+            <TextBlock Text="{Binding Channel.Status}" Foreground="Black" HorizontalAlignment="Left" TextAlignment="DetectFromContent" FontSize="18" Grid.Row="1" VerticalAlignment="Center" Margin="4" TextWrapping="Wrap" />
             <Grid Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
                 <Grid Background="Black" Opacity="0.8" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -51,7 +51,7 @@
                     </StackPanel>
                     
                     <!-- Language -->
-                    <StackPanel Orientation="Vertical" Margin="2,0" Visibility="{Binding Channel.Language,Converter={StaticResource emptryStringToVisibilityConverter}}">
+                    <StackPanel Orientation="Vertical" Margin="20,0" Visibility="{Binding Channel.Language,Converter={StaticResource emptryStringToVisibilityConverter}}">
                         <Path Data="M8.3460083,17.244993L14.746002,26.333004 10.156006,29.448999 5.5679932,19.201015z M26.276001,7.8120106C26.881989,7.8120106 27.373993,9.4120167 27.373993,11.382993 27.373993,13.356016 26.881989,14.955015 26.276001,14.955015 25.669983,14.955015 25.178009,13.356016 25.178009,11.382993 25.178009,9.4120167 25.669983,7.8120106 26.276001,7.8120106z M6.8829956,7.5490101L6.8829956,15.217008 0,13.84799 0,9.5760181z M25.940002,1.2160034C23.264008,1.2160034 21.092987,5.7669976 21.092987,11.382993 21.092987,16.998991 23.264008,21.550991 25.940002,21.550991 28.615997,21.550991 30.785004,16.998991 30.785004,11.382993 30.785004,5.7669976 28.615997,1.2160034 25.940002,1.2160034z M25.940002,0C29.394989,2.1376945E-07 32,4.8930047 32,11.382993 32,17.873014 29.394989,22.765987 25.940002,22.765987 25.015991,22.765987 24.085999,22.407985 23.207001,21.78799L9.2250061,15.772 9.2250061,7.3300159 22.638,1.4940186C23.669983,0.54400649,24.812988,2.1376945E-07,25.940002,0z" Stretch="Uniform" Fill="#FFFFFFFF" Width="21" Height="21" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
                             <Path.RenderTransform>
                                 <TransformGroup>
