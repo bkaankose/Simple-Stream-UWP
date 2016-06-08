@@ -1,14 +1,16 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Simple_Stream_UWP.Models
 {
-    public class StreamInformation
+    public class StreamInformation : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
         [JsonProperty("_id")]
         public object StreamId { get; set; }
         [JsonProperty("game")]
@@ -25,5 +27,17 @@ namespace Simple_Stream_UWP.Models
         public Logo Logo { get; set; }
         [JsonProperty("channel")]
         public Channel Channel { get; set; }
+        private bool _isSelected;
+
+        [JsonIgnore]
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+                PropertyChanged?.Invoke(null, new PropertyChangedEventArgs("IsSelected"));
+            }
+        }
     }
 }
