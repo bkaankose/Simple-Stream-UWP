@@ -7,5 +7,16 @@
 
     <Style TargetType="ProgressRing">
         <Setter Property="Foreground" Value="{StaticResource ProgressRingBrush}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="IsActive" Value="{Binding IsBusy}" />
+        <Setter Property="Visibility" Value="{Binding IsBusy,Converter={StaticResource boolToVisibility}}" />
+        <Setter Property="Width" Value="75" />
+        <Setter Property="Height" Value="75" />
+    </Style>
+
+    <Style TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Segoe UI Light" />
+        <Setter Property="FontWeight" Value="ExtraLight" />
     </Style>
 </ResourceDictionary>
