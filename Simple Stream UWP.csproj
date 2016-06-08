@@ -101,8 +101,12 @@
     <Compile Include="Controls\FeaturedGameCardControl.xaml.cs">
       <DependentUpon>FeaturedGameCardControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\StreamUserControl.xaml.cs">
+      <DependentUpon>StreamUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityReverseConverter.cs" />
+    <Compile Include="Converters\EmptyStringToVisibilityConverter.cs" />
     <Compile Include="Converters\ItemClickedConverter.cs" />
     <Compile Include="Interfaces\ITwitchRepository.cs" />
     <Compile Include="Interfaces\ITwitchService.cs" />
@@ -154,6 +158,10 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\StreamUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ConverterResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
