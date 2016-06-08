@@ -16,9 +16,16 @@ namespace Simple_Stream_UWP.Services
         /// <param name="message">Message parameter of MessageDialog</param>
         /// <param name="title">Title parameter of MessageDialog. (Optional) </param>
         /// <returns></returns>
+        /// 
+        private bool isContentDisplaying = false;
         public async Task DisplayAlertAsync(string message, string title = "")
         {
+            if (isContentDisplaying)
+                return;
+
+            isContentDisplaying = true;
             await new MessageDialog(message, title).ShowAsync();
+            isContentDisplaying = false;
         }
 
         /// <summary>
@@ -29,11 +36,16 @@ namespace Simple_Stream_UWP.Services
         /// <returns></returns>
         public async Task<bool> DisplayConfirmationDialogAsync(string question, string title = "")
         {
+            if (isContentDisplaying)
+                return false;                
+
+            isContentDisplaying = true;
             var questionDialog = new MessageDialog(question,title);
             questionDialog.Commands.Add(new UICommand() { Id = 0, Label = "Evet" });
             questionDialog.Commands.Add(new UICommand() { Id = 1, Label = "Hayır" });
             
             var result = await questionDialog.ShowAsync();
+            isContentDisplaying = false;
             return result != null ? (Int32.Parse(result.Id.ToString()) == 0 ? true : false) : false;
         }
     }
