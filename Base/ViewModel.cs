@@ -42,16 +42,21 @@ namespace Simple_Stream_UWP.Base
         {
             // Configure back button visibility.
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = BackCommand == null ? AppViewBackButtonVisibility.Collapsed : AppViewBackButtonVisibility.Visible;
-            _gestureService.GoBackRequested += async (c, r) =>
-            {
-                if (BackCommand != null)
-                    await BackCommand.Execute();
-            };
+
+            _gestureService.GoBackRequested += ShellBackRequested;
+        }
+
+        private async void ShellBackRequested(object sender, DeviceGestureEventArgs e)
+        {
+            if (BackCommand != null)
+                await BackCommand.Execute();
+
+            e.Handled = true;
         }
 
         public virtual void OnNavigatingFrom(NavigatingFromEventArgs e, Dictionary<string, object> viewModelState, bool suspending)
         {
-            
+            _gestureService.GoBackRequested -= ShellBackRequested;
         }
     }
 }
