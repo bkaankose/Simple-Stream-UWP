@@ -22,13 +22,10 @@
                 <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
-
-
     </UserControl.Resources>
-
     <Border BorderThickness="0" BorderBrush="Gray" CornerRadius="0,0,7,7">
-        <Grid>
-            <Grid Margin="3">
+        <Grid x:Name="grid">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -60,20 +57,128 @@
                     </StackPanel>
                 </Grid>
                 <!-- Information -->
-                <TextBlock Text="{Binding Channel.Status}" HorizontalAlignment="Stretch" TextAlignment="Center" FontSize="18" Grid.Row="2" Margin="3" TextTrimming="CharacterEllipsis" />
+                <TextBlock Text="{Binding Channel.Status}" HorizontalAlignment="Stretch" TextAlignment="Center" FontSize="18" Grid.Row="2" Margin="3" TextTrimming="CharacterEllipsis"  />
             </Grid>
-            
             <!-- Options Dialog -->
             <Grid Visibility="{Binding IsSelected,Converter={StaticResource boolToVisibility},FallbackValue=Visible}" x:Name="optionsDialog">
-                <Grid Background="White" Opacity="0.5" />
-                <AppBarButton Foreground="#FFFFFFFF" Background="#FFD62727" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <AppBarButton.Icon>
-                        <PathIcon HorizontalAlignment="Center" VerticalAlignment="Center" Data="M0,0L9.89063167572021,5.0006103515625 19.7818737030029,9.99874114990234 9.89063167572021,14.9993705749512 0,20 0,9.99874114990234 0,0z" />
-                    </AppBarButton.Icon>
-                </AppBarButton>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid Background="White" Opacity="0.9" Grid.RowSpan="3" />
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{Binding Channel.ChannelName,FallbackValue=kraken}" Foreground="#FFF04809" Margin="6" FontSize="19" TextWrapping="Wrap" HorizontalAlignment="Stretch" TextAlignment="Center" VerticalAlignment="Top" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding Channel.Status}" Foreground="#FF242B22" Margin="6,6,6,0" FontSize="19" TextWrapping="Wrap" HorizontalAlignment="Stretch" TextAlignment="Center" VerticalAlignment="Top" FontWeight="SemiBold" Grid.Row="1" />
+                </Grid>
+                <!-- Actions -->
+                <StackPanel HorizontalAlignment="Center" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom">
+                    <AppBarButton Icon="World" Foreground="Black" Label="Open In Browser"  VerticalAlignment="Center" FontWeight="SemiBold" />
+                    <AppBarButton Icon="Favorite" Label="Favorite" Foreground="Black" VerticalAlignment="Center" FontWeight="SemiBold" />
+                    <AppBarButton Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Label="Watch" FontWeight="bold">
+                        <AppBarButton.Icon>
+                            <PathIcon HorizontalAlignment="Center" VerticalAlignment="Center" Data="M0,0L9.89063167572021,5.0006103515625 19.7818737030029,9.99874114990234 9.89063167572021,14.9993705749512 0,20 0,9.99874114990234 0,0z" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                </StackPanel>
+                <!-- Information -->
+                <Grid VerticalAlignment="Bottom" Grid.Row="2" HorizontalAlignment="Center" Height="50">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <!-- Average FPS -->
+                    <Border HorizontalAlignment="Center" Margin="4,0" VerticalAlignment="Center" Background="#FF242B22" MinWidth="48" BorderBrush="#FF3A3939" Visibility="{Binding DisplayFPS,Converter={StaticResource zeroIntegerToVisibility}}">
+                        <Grid Margin="6">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Path Data="M2,2L2,25 30,25 30,2z M1,0L31,0C31.552002,0,32,0.44702148,32,1L32,26C32,26.552979,31.552002,27,31,27L17,27 17,30 25,30 25,32 7,32 7,30 15,30 15,27 1,27C0.44799805,27,0,26.552979,0,26L0,1C0,0.44702148,0.44799805,0,1,0z" Stretch="Uniform" Fill="White" Width="18" Height="18" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <TransformGroup.Children>
+                                            <RotateTransform Angle="0" />
+                                            <ScaleTransform ScaleX="-1" ScaleY="1" />
+                                        </TransformGroup.Children>
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                            <TextBlock Grid.Row="1" HorizontalAlignment="Center" FontWeight="Bold" Foreground="White">
+                                <Run Text="{Binding DisplayFPS,FallbackValue=0}" />
+                                <Run Text="FPS" />
+                            </TextBlock>
+                        </Grid>
+                    </Border>
+                    <!-- Language -->
+                    <Border HorizontalAlignment="Center" Margin="4,0" VerticalAlignment="Center" Background="#FF242B22" Width="48" BorderBrush="#FF3A3939" Grid.Column="1">
+                        <Grid Margin="6">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Path Data="M8.3460083,17.244993L14.746002,26.333004 10.156006,29.448999 5.5679932,19.201015z M26.276001,7.8120106C26.881989,7.8120106 27.373993,9.4120167 27.373993,11.382993 27.373993,13.356016 26.881989,14.955015 26.276001,14.955015 25.669983,14.955015 25.178009,13.356016 25.178009,11.382993 25.178009,9.4120167 25.669983,7.8120106 26.276001,7.8120106z M6.8829956,7.5490101L6.8829956,15.217008 0,13.84799 0,9.5760181z M25.940002,1.2160034C23.264008,1.2160034 21.092987,5.7669976 21.092987,11.382993 21.092987,16.998991 23.264008,21.550991 25.940002,21.550991 28.615997,21.550991 30.785004,16.998991 30.785004,11.382993 30.785004,5.7669976 28.615997,1.2160034 25.940002,1.2160034z M25.940002,0C29.394989,2.1376945E-07 32,4.8930047 32,11.382993 32,17.873014 29.394989,22.765987 25.940002,22.765987 25.015991,22.765987 24.085999,22.407985 23.207001,21.78799L9.2250061,15.772 9.2250061,7.3300159 22.638,1.4940186C23.669983,0.54400649,24.812988,2.1376945E-07,25.940002,0z" Stretch="Uniform" Fill="White" Width="18" Height="18" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <TransformGroup.Children>
+                                            <RotateTransform Angle="0" />
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                        </TransformGroup.Children>
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                            <TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="{Binding Channel.Language,FallbackValue=ru}" FontWeight="Bold" Foreground="White" />
+                        </Grid>
+                    </Border>
+                    <!-- Delay -->
+                    <Border HorizontalAlignment="Center" Margin="4,0" VerticalAlignment="Center" Background="#FF242B22" Width="48" BorderBrush="#FF3A3939" Grid.Column="2" Visibility="{Binding StreamDelay,Converter={StaticResource zeroIntegerToVisibility}}">
+                        <Grid Margin="6">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Path Data="M10.799994,25.6L13.799993,26.800001 16.799991,27.200001 16.799991,28.4 4.7999978,28.4 4.7999978,27.200001 8.0999961,26.800001z M10.799994,16.9L3.9999981,21.1 3.9999981,29 17.499991,29 17.499991,21.3z M5.1999974,6.9000006L16.999991,6.9000006 16.999991,10.2 10.899994,14 5.1999974,10.2z M4.2999983,2.9000001L4.2999983,10.8 10.899994,15.1 17.799991,10.8 17.799991,2.9000001z M0,0L22.199988,0 22.199988,2.9000001 19.19999,2.9000001 19.19999,11.6 12.199994,15.9 18.89999,20.2 18.89999,28.9 22.199988,28.9 22.199988,32 0,32 0,29.1 2.599999,29.1 2.599999,20.400001 9.4999952,16 2.8999987,11.6 2.8999987,2.9000001 0,2.9000001z" Stretch="Uniform" Fill="White" Width="18" Height="18" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <TransformGroup.Children>
+                                            <RotateTransform Angle="0" />
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                        </TransformGroup.Children>
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                            <TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="{Binding StreamDelay,FallbackValue=ru}" FontWeight="Bold" Foreground="White" />
+                        </Grid>
+                    </Border>
+                    <!-- Age Restriction -->
+                    <Border HorizontalAlignment="Center" Margin="4,0" VerticalAlignment="Center" Background="#FFFF4735" Width="48" BorderBrush="#FF3A3939" Grid.Column="3" Visibility="{Binding Channel.IsAgeRestricted,Converter={StaticResource boolToVisibility}}">
+                        <Grid Margin="6">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Path Data="M23.800996,18.294996C20.653001,18.294996,18.046,21.247996,17.653002,25.058998L29.948997,25.058998C29.556,21.247996,26.948997,18.294996,23.800996,18.294996z M11.629,14.120997C6.5909996,14.120997,2.4449997,18.942001,2.0339994,25.059006L12.637,25.059006C12.879,21.505002 14.407,18.261 16.868,16.051999 15.315,14.799997 13.488,14.120997 11.629,14.120997z M23.656002,10.085001C22.270002,10.085001 21.142002,11.213003 21.142002,12.599005 21.142002,13.985008 22.270002,15.11301 23.656002,15.11301 25.042002,15.11301 26.170002,13.985008 26.170002,12.599005 26.170002,11.213003 25.042002,10.085001 23.656002,10.085001z M23.656002,8.0849972C26.145002,8.0849972 28.170002,10.110001 28.170002,12.599005 28.170002,14.310196 27.212873,15.802073 25.805864,16.567388L25.77682,16.582284 25.847658,16.602919C29.381578,17.688259,31.999999,21.516249,31.999999,26.058998L31.999999,27.058997 15.602,27.058997 15.602,26.058998C15.602,21.600374,18.12434,17.830282,21.55896,16.666025L21.644554,16.638379 21.50614,16.567388C20.099131,15.802073 19.142002,14.310196 19.142002,12.599005 19.142002,10.110001 21.167002,8.0849972 23.656002,8.0849972z M11.413997,2.000001C9.1049972,2.000001 7.225997,3.8790007 7.225997,6.1880007 7.225997,8.4970007 9.1049972,10.375001 11.413997,10.375001 13.722998,10.375001 15.601998,8.4970007 15.601997,6.1880007 15.601998,3.8790007 13.722998,2.000001 11.413997,2.000001z M11.413997,0C14.825998,0 17.601998,2.776001 17.601998,6.1880007 17.601998,9.0668759 15.625724,11.492261 12.958627,12.179909L12.868101,12.200849 12.904782,12.205217C15.184046,12.506953,17.352562,13.611528,19.116,15.390998L19.938,16.220999 18.992,16.904999C16.243,18.892001,14.602,22.315003,14.602,26.059007L14.602,27.059007 0,27.059007 0,26.059007C0,19.093563,4.2846651,13.30585,9.8604474,12.281873L10.120843,12.238077 9.8693676,12.179909C7.2022705,11.492261 5.225997,9.0668759 5.225997,6.1880007 5.225997,2.776001 8.0019975,0 11.413997,0z" Stretch="Uniform" Fill="White" Width="18" Height="18" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <TransformGroup.Children>
+                                            <RotateTransform Angle="0" />
+                                            <ScaleTransform ScaleX="1" ScaleY="1" />
+                                        </TransformGroup.Children>
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                            <TextBlock Grid.Row="1" HorizontalAlignment="Center" Text="+18" FontWeight="Bold" Foreground="White" />
+                        </Grid>
+                    </Border>
+                    
+                </Grid>
             </Grid>
         </Grid>
     </Border>
-
-
 </UserControl>

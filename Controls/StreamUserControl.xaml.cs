@@ -28,7 +28,7 @@ namespace Simple_Stream_UWP.Controls
         }
 
         public static readonly DependencyProperty IsOptionsDialogVisibleProperty =
-            DependencyProperty.Register("IsOptionsDialogVisible", typeof(bool), typeof(StreamUserControl),new PropertyMetadata(true,new PropertyChangedCallback(asd)));
+            DependencyProperty.Register("IsOptionsDialogVisible", typeof(bool), typeof(StreamUserControl),new PropertyMetadata(true,new PropertyChangedCallback(VisibilityChanged)));
 
 
         public StreamUserControl()
@@ -49,18 +49,13 @@ namespace Simple_Stream_UWP.Controls
             imageFailedMessagePanel.Visibility = Visibility.Visible;
         }
 
-        static void asd(DependencyObject obj,DependencyPropertyChangedEventArgs args)
+        static void VisibilityChanged(DependencyObject obj,DependencyPropertyChangedEventArgs args)
         {
             var control = obj as StreamUserControl;
             if ((bool)args.NewValue == true)
                 control.OptionsLoadingAnimaton.Begin();
             else
                 control.OptionsDisappearingAnimaton.Begin();
-        }
-
-        private void UserControl_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            optionsDialog.Visibility = Visibility.Visible;
         }
     }
 }

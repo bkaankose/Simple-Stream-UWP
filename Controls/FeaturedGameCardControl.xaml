@@ -10,7 +10,7 @@
     d:DesignWidth="225">
 
     <Grid>
-        <Image Source="{Binding GameObject.Box.FixedBoxLogo}" Grid.RowSpan="2" ImageOpened="CoverPhotoOpened" ImageFailed="CoverPhotoFailed" />
+        <Image Source="{Binding GameObject.Box.FixedBoxLogo}" Grid.RowSpan="2" Stretch="UniformToFill" ImageOpened="CoverPhotoOpened" ImageFailed="CoverPhotoFailed" />
         <!-- Image loading indicator -->
         <ProgressRing x:Name="imageLoadingProgress" IsActive="True" Width="60" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center" />
         <!-- Image load failed -->
@@ -32,5 +32,4 @@
             </StackPanel>
         </Grid>
     </Grid>
-
 </UserControl>
