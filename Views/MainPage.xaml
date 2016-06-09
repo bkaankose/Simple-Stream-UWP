@@ -4,6 +4,7 @@
     mvvm:ViewModelLocator.AutoWireViewModel="True"
     xmlns:base="using:Simple_Stream_UWP.Base"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Simple_Stream_UWP.Views"
     xmlns:controls="using:Simple_Stream_UWP.Controls"
@@ -58,6 +59,6 @@
                 </core:EventTriggerBehavior>
             </i:Interaction.Behaviors>
         </GridView>
-        <ProgressRing Grid.Row="1" />
+        <ProgressRing Grid.Row="1" Width="75" Height="75" IsActive="{Binding IsBusy}" Visibility="{Binding IsBusy,Converter={StaticResource boolToVisibility}}" />
     </Grid>
 </base:BasePage>

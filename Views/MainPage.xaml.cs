@@ -30,11 +30,11 @@ namespace Simple_Stream_UWP.Views
         {
             var panel = (ItemsWrapGrid)featuredGamesGridView.ItemsPanelRoot;
             if(e.NewSize.Width < 600)
-                panel.ItemWidth = panel.ItemHeight = e.NewSize.Width / 2;
+                panel.ItemWidth = e.NewSize.Width / 2;
             else if(e.NewSize.Width > 600 && e.NewSize.Width < 1200)
-                panel.ItemWidth = panel.ItemHeight = e.NewSize.Width / 3;
+                panel.ItemWidth = e.NewSize.Width / 3;
             else
-                panel.ItemWidth = panel.ItemHeight = e.NewSize.Width / 5;
+                panel.ItemWidth = e.NewSize.Width / 5;
         }
 
         private void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
