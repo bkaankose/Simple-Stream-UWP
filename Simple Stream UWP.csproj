@@ -108,6 +108,7 @@
     <Compile Include="Converters\BooleanToVisibilityReverseConverter.cs" />
     <Compile Include="Converters\EmptyStringToVisibilityConverter.cs" />
     <Compile Include="Converters\ItemClickedConverter.cs" />
+    <Compile Include="Converters\ZeroIntegerToVisibilityConverter.cs" />
     <Compile Include="Interfaces\ITwitchRepository.cs" />
     <Compile Include="Interfaces\ITwitchService.cs" />
     <Compile Include="Models\BoxLogo.cs" />
