@@ -1,26 +1,16 @@
-﻿using Simple_Stream_UWP.Models;
+﻿using Prism.Windows.Navigation;
+using Microsoft.Practices.Unity;
+using Simple_Stream_UWP.Models;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Storage;
-using Windows.UI.Popups;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 namespace Simple_Stream_UWP.Controls
 {
     public sealed partial class StreamUserControl : UserControl
     {
+        private StreamInformation currentContext;
         public bool IsOptionsDialogVisible
         {
             get { return (bool)GetValue(IsOptionsDialogVisibleProperty); }
@@ -34,6 +24,7 @@ namespace Simple_Stream_UWP.Controls
         public StreamUserControl()
         {
             this.InitializeComponent();
+            this.Loaded += (c, r) => { currentContext = this.DataContext as StreamInformation; };
         }
 
         private void ThumbnailLoaded(object sender, RoutedEventArgs e)
@@ -59,7 +50,9 @@ namespace Simple_Stream_UWP.Controls
                 control.OptionsDisappearingAnimaton.Begin();
         }
 
-        private void FavoriteChannel(object sender, RoutedEventArgs e) { (this.DataContext as StreamInformation).IsFavorited = true; }
-        private void UnfavoriteChannel(object sender, RoutedEventArgs e) { (this.DataContext as StreamInformation).IsFavorited = false; }
+        private void FavoriteChannel(object sender, RoutedEventArgs e) { currentContext.IsFavorited = true; }
+        private void UnfavoriteChannel(object sender, RoutedEventArgs e) { currentContext.IsFavorited = false; }
+        private async void OpenInBrowser(object sender, RoutedEventArgs e) { await Launcher.LaunchUriAsync(new Uri($"http://twitch.tv/{currentContext.Channel?.ChannelName}")); }
+        private void PlayClicked(object sender, RoutedEventArgs e) { App.Current.Container.Resolve<INavigationService>().Navigate("LiveStream", currentContext.Channel.ChannelName); }
     }
 }

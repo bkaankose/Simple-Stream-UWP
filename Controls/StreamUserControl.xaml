@@ -78,10 +78,10 @@
                 </Grid>
                 <!-- Actions -->
                 <StackPanel HorizontalAlignment="Center" Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom">
-                    <AppBarButton x:Name="btnpOpenInBrowser" Icon="World" Foreground="Black" Label="Open In Browser"  VerticalAlignment="Center" FontWeight="SemiBold" />
+                    <AppBarButton x:Name="btnpOpenInBrowser" Icon="World" Foreground="Black" Label="Open In Browser"  VerticalAlignment="Center" FontWeight="SemiBold" Click="OpenInBrowser" />
                     <AppBarButton x:Name="btnFavorite" Icon="Favorite" Label="Favorite" Foreground="Black" VerticalAlignment="Center" FontWeight="SemiBold" Visibility="{Binding IsFavorited,Converter={StaticResource boolToVisibilityReverse}}" Click="FavoriteChannel" />
                     <AppBarButton x:Name="btnUnfavorite" Icon="UnFavorite" Label="Unfavorite" Foreground="Black" VerticalAlignment="Center" FontWeight="SemiBold" Visibility="{Binding IsFavorited,Converter={StaticResource boolToVisibility}}" Click="UnfavoriteChannel" />
-                    <AppBarButton Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Label="Watch" FontWeight="bold">
+                    <AppBarButton x:Name="btnPlay" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Label="Watch" FontWeight="Bold" Click="PlayClicked">
                         <AppBarButton.Icon>
                             <PathIcon HorizontalAlignment="Center" VerticalAlignment="Center" Data="M0,0L9.89063167572021,5.0006103515625 19.7818737030029,9.99874114990234 9.89063167572021,14.9993705749512 0,20 0,9.99874114990234 0,0z" />
                         </AppBarButton.Icon>
