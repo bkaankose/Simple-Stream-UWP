@@ -9,18 +9,17 @@ using Windows.UI.Xaml.Data;
 
 namespace Simple_Stream_UWP.Converters
 {
-    public class BooleanToVisibilityConverter : IValueConverter
+    public class ZeroIntegerToVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value == null)
-                return Visibility.Collapsed;
+            int val = 0;
 
-            if(value.GetType() == typeof(bool))
-                return ((bool)value) == true ? Visibility.Visible : Visibility.Collapsed;
+            if (int.TryParse(value.ToString(), out val))
+                return val > 0 ? Visibility.Visible : Visibility.Collapsed;
             else
             {
-                Debug.WriteLine("Non boolean type in the boolean to visibility converter.");
+                Debug.WriteLine($"Converter tried to parse string:{value.ToString()} but failed.");
                 return Visibility.Collapsed;
             }
         }

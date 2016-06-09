@@ -8,6 +8,6 @@
     <converters:ItemClickedConverter x:Key="itemClickedConverter" />
     <converters:BooleanToVisibilityConverter x:Key="boolToVisibility" />
     <converters:BooleanToVisibilityReverseConverter x:Key="boolToVisibilityReverse" />
-    <converters:EmptyStringToVisibilityConverter x:Key="emptryStringToVisibilityConverter" />
-
+    <converters:EmptyStringToVisibilityConverter x:Key="emptryStringToVisibility" />
+                                                 <converters:ZeroIntegerToVisibilityConverter x:Key="zeroIntegerToVisibility" />
 </ResourceDictionary>
