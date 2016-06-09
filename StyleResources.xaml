@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Simple_Stream_UWP">
 
-    <SolidColorBrush x:Key="ProgressRingBrush" Color="Green" />
+    <SolidColorBrush x:Key="ProgressRingBrush" Color="Lime" />
 
     <Style TargetType="ProgressRing">
         <Setter Property="Foreground" Value="{StaticResource ProgressRingBrush}" />
