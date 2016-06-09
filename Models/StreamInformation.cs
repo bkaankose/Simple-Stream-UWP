@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace Simple_Stream_UWP.Models
 {
@@ -48,6 +49,26 @@ namespace Simple_Stream_UWP.Models
             {
                 _isSelected = value;
                 PropertyChanged?.Invoke(null, new PropertyChangedEventArgs("IsSelected"));
+            }
+        }
+        
+        [JsonIgnore]
+        public bool IsFavorited
+        {
+            get
+            { // Retrive favorited status from local settings.
+                return ApplicationData.Current.LocalSettings.Values.Any(a => a.Key.Equals(Channel?.ChannelName));
+            }
+            set
+            {
+                if (value) // We store it by ChannelName - Favorited Time pair.
+                    ApplicationData.Current.LocalSettings.Values[Channel?.ChannelName] = DateTime.Now.ToString();
+                else
+                {
+                    ApplicationData.Current.LocalSettings.Values.Remove(Channel?.ChannelName);
+                }
+
+                PropertyChanged?.Invoke(null, new PropertyChangedEventArgs("IsFavorited"));
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Simple_Stream_UWP.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -14,8 +16,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace Simple_Stream_UWP.Controls
 {
@@ -52,10 +52,14 @@ namespace Simple_Stream_UWP.Controls
         static void VisibilityChanged(DependencyObject obj,DependencyPropertyChangedEventArgs args)
         {
             var control = obj as StreamUserControl;
+
             if ((bool)args.NewValue == true)
                 control.OptionsLoadingAnimaton.Begin();
             else
                 control.OptionsDisappearingAnimaton.Begin();
         }
+
+        private void FavoriteChannel(object sender, RoutedEventArgs e) { (this.DataContext as StreamInformation).IsFavorited = true; }
+        private void UnfavoriteChannel(object sender, RoutedEventArgs e) { (this.DataContext as StreamInformation).IsFavorited = false; }
     }
 }
