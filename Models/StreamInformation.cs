@@ -21,6 +21,17 @@ namespace Simple_Stream_UWP.Models
         public string OnlineSince { get; set; }
         [JsonProperty("average_fps")]
         public double AverageFPS { get; set; }
+        [JsonIgnore]
+        public int DisplayFPS
+        {
+            get
+            {
+                if (AverageFPS.ToString().Contains("."))
+                    return int.Parse(AverageFPS.ToString().Split('.')[0]);
+                else
+                    return int.Parse(AverageFPS.ToString());
+            }
+        }
         [JsonProperty("delay")]
         public int StreamDelay { get; set; }
         [JsonProperty("preview")]
