@@ -56,7 +56,7 @@ namespace Simple_Stream_UWP.ViewModels
 
         #endregion
 
-        public GameDetailPageViewModel(IDeviceGestureService gestureService, INavigationService navigationService, ITwitchRepository twitchRepository, IPageDialogService dialogService) : base(gestureService, navigationService)
+        public GameDetailPageViewModel(IDeviceGestureService gestureService, INavigationService navigationService, ITwitchRepository twitchRepository, IPageDialogService dialogService, ISessionStateService sessionStateService) : base(gestureService, navigationService, sessionStateService)
         {
             _twitchRepository = twitchRepository;
             _dialogService = dialogService;
@@ -64,17 +64,24 @@ namespace Simple_Stream_UWP.ViewModels
         public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
             base.OnNavigatedTo(e, viewModelState);
-            if (e.NavigationMode == Windows.UI.Xaml.Navigation.NavigationMode.Back)
-                return;
-
             CurrentGameName = e.Parameter.ToString(); // Game name.
+
+            if (e.NavigationMode == Windows.UI.Xaml.Navigation.NavigationMode.Back || (_sessionStateService.SessionState.ContainsKey("latestLoadedGame") && _sessionStateService.SessionState["latestLoadedGame"].Equals(CurrentGameName)))
+                return;
 
             // Loading mechanism could be better.
             IsBusy = true; 
             StreamInformations = await _twitchRepository.GetGameDetails(_currentGameName);
             IsBusy = false;
 
+            // Store latest loaded game for caching.
+            if (_sessionStateService.SessionState.ContainsKey("latestLoadedGame"))
+                _sessionStateService.SessionState["latestLoadedGame"] = CurrentGameName;
+            else
+                _sessionStateService.SessionState.Add("latestLoadedGame", CurrentGameName);
+
             this.PropertyChanged += PropChanged;
+            
         }
 
         private void PropChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

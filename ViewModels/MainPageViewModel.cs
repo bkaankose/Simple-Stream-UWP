@@ -78,7 +78,7 @@ namespace Simple_Stream_UWP.ViewModels
 
         private void Query()
         {
-            
+
         }
     }
 }
