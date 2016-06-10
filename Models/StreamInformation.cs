@@ -64,9 +64,7 @@ namespace Simple_Stream_UWP.Models
                 if (value) // We store it by ChannelName - Favorited Time pair.
                     ApplicationData.Current.LocalSettings.Values[Channel?.ChannelName] = DateTime.Now.ToString();
                 else
-                {
                     ApplicationData.Current.LocalSettings.Values.Remove(Channel?.ChannelName);
-                }
 
                 PropertyChanged?.Invoke(null, new PropertyChangedEventArgs("IsFavorited"));
             }

@@ -111,6 +111,7 @@
     <Compile Include="Converters\ZeroIntegerToVisibilityConverter.cs" />
     <Compile Include="Interfaces\ITwitchRepository.cs" />
     <Compile Include="Interfaces\ITwitchService.cs" />
+    <Compile Include="Behaviors\MediaStreamSourceBehavior.cs" />
     <Compile Include="Models\BoxLogo.cs" />
     <Compile Include="Models\Channel.cs" />
     <Compile Include="Models\FeaturedGame.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Models\Logo.cs" />
     <Compile Include="Models\ServiceModels\ServiceResponse.cs" />
     <Compile Include="Models\StreamInformation.cs" />
+    <Compile Include="Models\TwitchToken.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\IPageDialogService.cs" />
     <Compile Include="Services\DeviceGestureService.cs" />
@@ -125,12 +127,16 @@
     <Compile Include="Services\TwitchRepository.cs" />
     <Compile Include="Services\TwitchService.cs" />
     <Compile Include="ViewModels\GameDetailPageViewModel.cs" />
+    <Compile Include="ViewModels\LiveStreamPageViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ExtendedSplashScreen.xaml.cs">
       <DependentUpon>ExtendedSplashScreen.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GameDetailPage.xaml.cs">
       <DependentUpon>GameDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LiveStreamPage.xaml.cs">
+      <DependentUpon>LiveStreamPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -186,6 +192,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\LiveStreamPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -196,6 +206,7 @@
       <Name>Behaviors SDK %28XAML%29</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
