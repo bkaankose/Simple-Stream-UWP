@@ -23,6 +23,7 @@ namespace Simple_Stream_UWP.Views
         {
             this.InitializeComponent();
             streamsGridView.SizeChanged += GridSizeChanged;
+            this.NavigationCacheMode = NavigationCacheMode.Enabled;
         }
 
         private void GridSizeChanged(object sender, SizeChangedEventArgs e)

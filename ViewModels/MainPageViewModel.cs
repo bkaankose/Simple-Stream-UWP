@@ -51,20 +51,18 @@ namespace Simple_Stream_UWP.ViewModels
         {
             _twitchRepository = twitchRepository;
             _dialogService = dialogService;
-            BackCommand = new DelegateCommand(() => TerminateAppliation());
+
             QueryCommand = new DelegateCommand(Query);
             RefreshFeaturedGamesCommand = new DelegateCommand(async () => await RefreshFeaturedGames());
             GameClickedCommand = new DelegateCommand<FeaturedGame>((FeaturedGame game) =>
             {
                 _navigationService.Navigate("GameDetail", game.GameObject.Name); // parameter: game name.
             });
-
         }
 
         public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
             base.OnNavigatedTo(e, viewModelState);
-
             if (e.NavigationMode == Windows.UI.Xaml.Navigation.NavigationMode.Back)
                 return;
             FeaturedGames = await _twitchRepository.GetFeaturedGames();
@@ -76,13 +74,6 @@ namespace Simple_Stream_UWP.ViewModels
             await _twitchRepository.ReloadFeaturedGames();
             FeaturedGames = await _twitchRepository.GetFeaturedGames();
             IsBusy = false;
-        }
-
-        private async void TerminateAppliation()
-        {
-            var exitComfirmed = await _dialogService.DisplayConfirmationDialogAsync("Do you want to exit from the application?","Are you sure?");
-            if (exitComfirmed)
-                Application.Current.Exit();
         }
 
         private void Query()

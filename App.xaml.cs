@@ -53,7 +53,7 @@ namespace Simple_Stream_UWP
 
         protected override IDeviceGestureService OnCreateDeviceGestureService()
         {
-            return new Services.DeviceGestureService();
+            return new Services.DeviceGestureService(EventAggregator);
         }
 
         private void RegisterServices()

@@ -60,11 +60,13 @@ namespace Simple_Stream_UWP.ViewModels
         {
             _twitchRepository = twitchRepository;
             _dialogService = dialogService;
-            BackCommand = new DelegateCommand(() => _navigationService.GoBack());
         }
         public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
             base.OnNavigatedTo(e, viewModelState);
+            if (e.NavigationMode == Windows.UI.Xaml.Navigation.NavigationMode.Back)
+                return;
+
             CurrentGameName = e.Parameter.ToString(); // Game name.
 
             // Loading mechanism could be better.

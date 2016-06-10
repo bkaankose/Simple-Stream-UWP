@@ -21,7 +21,7 @@ namespace Simple_Stream_UWP.Base
         internal IDeviceGestureService _gestureService;
         internal INavigationService _navigationService;
 
-        public DelegateCommand BackCommand { get; set; } // Default back command for specific page.
+        //public DelegateCommand BackCommand { get; set; } // Default back command for specific page.
 
         // General busy indicator property for specific view model.
         private bool _isBusy;
@@ -40,22 +40,11 @@ namespace Simple_Stream_UWP.Base
 
         public virtual void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
-            // Configure back button visibility.
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = BackCommand == null ? AppViewBackButtonVisibility.Collapsed : AppViewBackButtonVisibility.Visible;
-
-            _gestureService.GoBackRequested += ShellBackRequested;
+            
         }
-
-        private async void ShellBackRequested(object sender, DeviceGestureEventArgs e)
-        {
-            e.Handled = true;
-            if (BackCommand != null)
-                await BackCommand.Execute();
-        }
-
         public virtual void OnNavigatingFrom(NavigatingFromEventArgs e, Dictionary<string, object> viewModelState, bool suspending)
         {
-            _gestureService.GoBackRequested -= ShellBackRequested;
+            
         }
     }
 }

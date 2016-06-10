@@ -54,6 +54,7 @@ namespace Simple_Stream_UWP.ViewModels
         public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
             base.OnNavigatedTo(e, viewModelState);
+
             if (e.Parameter != null)
                 _navigationParameter = e.Parameter.ToString(); // Get navigated game name parameter.
 
