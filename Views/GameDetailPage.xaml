@@ -14,7 +14,7 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <GridView x:Name="streamsGridView" ItemsSource="{Binding StreamInformations}" HorizontalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" IsMultiSelectCheckBoxEnabled="False" SelectedItem="{Binding SelectedStreamInformation,Mode=TwoWay}">
+        <GridView x:Name="streamsGridView" ItemsSource="{Binding StreamInformations}" HorizontalAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectionMode="Single" IsMultiSelectCheckBoxEnabled="False" SelectedItem="{Binding SelectedStreamInformation,Mode=TwoWay}" Visibility="{Binding IsBusy,Converter={StaticResource boolToVisibilityReverse}}">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="VerticalContentAlignment" Value="Top" />
