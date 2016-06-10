@@ -18,8 +18,16 @@ namespace Simple_Stream_UWP.Services
     /// </summary>
     public class DeviceGestureService : IDeviceGestureService, IDisposable
     {
-        public DeviceGestureService()
+        private SubscriptionToken _navigationStateChangedEventToken;
+        private IEventAggregator _eventAggregator;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DeviceGestureService(IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
+            SubscribeToNavigationStateChanges();
             IsHardwareBackButtonPresent = ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "BackPressed");
             IsHardwareCameraButtonPresent = ApiInformation.IsEventPresent("Windows.Phone.UI.Input.HardwareButtons", "CameraPressed");
 
@@ -27,12 +35,25 @@ namespace Simple_Stream_UWP.Services
             IsMousePresent = new MouseCapabilities().MousePresent != 0;
             IsTouchPresent = new TouchCapabilities().TouchPresent != 0;
 
+            if (IsHardwareBackButtonPresent)
+                HardwareButtons.BackPressed += OnHardwareButtonsBackPressed;
+
+            if (IsHardwareCameraButtonPresent)
+            {
+                HardwareButtons.CameraHalfPressed += OnHardwareButtonCameraHalfPressed;
+                HardwareButtons.CameraPressed += OnHardwareButtonCameraPressed;
+                HardwareButtons.CameraReleased += OnHardwareButtonCameraReleased;
+            }
+
+            if (IsMousePresent)
+                MouseDevice.GetForCurrentView().MouseMoved += OnMouseMoved;
+
             SystemNavigationManager.GetForCurrentView().BackRequested += OnSystemNavigationManagerBackRequested;
 
             Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += OnAcceleratorKeyActivated;
 
             Window.Current.CoreWindow.PointerPressed += OnPointerPressed;
-
+            UseTitleBarBackButton = true;
         }
 
         public bool IsHardwareBackButtonPresent { get; private set; }
@@ -65,7 +86,7 @@ namespace Simple_Stream_UWP.Services
         /// </summary>
         public void Dispose()
         {
-            
+            UnsubscribeFromNavigationStateChanges();
         }
 
         /// <summary>
@@ -104,7 +125,6 @@ namespace Simple_Stream_UWP.Services
             if (handler != null)
             {
                 Delegate[] invocationList = handler.GetInvocationList();
-
                 for (int i = invocationList.Length - 1; i >= 0; i--)
                 {
                     EventHandler<T> del = (EventHandler<T>)invocationList[i];
@@ -140,6 +160,20 @@ namespace Simple_Stream_UWP.Services
         protected virtual void OnSystemNavigationManagerBackRequested(object sender, BackRequestedEventArgs e)
         {
             DeviceGestureEventArgs args = new DeviceGestureEventArgs();
+
+            RaiseCancelableEvent<DeviceGestureEventArgs>(GoBackRequested, this, args);
+
+            e.Handled = args.Handled;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void OnHardwareButtonsBackPressed(object sender, BackPressedEventArgs e)
+        {
+            DeviceGestureEventArgs args = new DeviceGestureEventArgs(false, true);
 
             RaiseCancelableEvent<DeviceGestureEventArgs>(GoBackRequested, this, args);
 
@@ -220,6 +254,47 @@ namespace Simple_Stream_UWP.Services
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void OnHardwareButtonCameraHalfPressed(object sender, CameraEventArgs e)
+        {
+            RaiseEvent<DeviceGestureEventArgs>(CameraButtonHalfPressed, this, new DeviceGestureEventArgs(false, true));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void OnHardwareButtonCameraPressed(object sender, CameraEventArgs e)
+        {
+            RaiseEvent<DeviceGestureEventArgs>(CameraButtonPressed, this, new DeviceGestureEventArgs(false, true));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        protected virtual void OnHardwareButtonCameraReleased(object sender, CameraEventArgs e)
+        {
+            RaiseEvent<DeviceGestureEventArgs>(CameraButtonReleased, this, new DeviceGestureEventArgs(false, true));
+        }
+
+        private void SubscribeToNavigationStateChanges()
+        {
+            var navigationStateChangedEvent = _eventAggregator.GetEvent<NavigationStateChangedEvent>();
+            _navigationStateChangedEventToken = navigationStateChangedEvent.Subscribe(OnNavigationStateChanged);
+        }
+
+        private void UnsubscribeFromNavigationStateChanges()
+        {
+            _eventAggregator.GetEvent<NavigationStateChangedEvent>().Unsubscribe(_navigationStateChangedEventToken);
+        }
+
         private void OnNavigationStateChanged(NavigationStateChangedEventArgs e)
         {
             if (UseTitleBarBackButton && e.Sender != null)
@@ -229,5 +304,6 @@ namespace Simple_Stream_UWP.Services
             }
         }
     }
+
 }
 
