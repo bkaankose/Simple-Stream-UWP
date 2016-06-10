@@ -13,5 +13,7 @@ namespace Simple_Stream_UWP.Interfaces
     {
         Task<ObservableCollection<FeaturedGame>> GetFeaturedChannels();
         Task<ObservableCollection<StreamInformation>> GetGameDetails(string gameName);
+        Task<TwitchToken> GetStreamToken(string channelName);
+        Task<string> FetchStreamURL(string channelName);
     }
 }

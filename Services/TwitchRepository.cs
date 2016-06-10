@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Simple_Stream_UWP.Models;
 using System.Collections.ObjectModel;
+using Windows.Media.Streaming.Adaptive;
 
 namespace Simple_Stream_UWP.Services
 {
@@ -38,6 +39,12 @@ namespace Simple_Stream_UWP.Services
         public async Task<ObservableCollection<StreamInformation>> GetGameDetails(string gameName)
         {
             return await _twitchService.GetGameDetails(gameName);
+        }
+
+        public async Task<AdaptiveMediaSourceCreationResult> FetchStreamHLS(string channelName)
+        {
+            var streamUrl = await _twitchService.FetchStreamURL(channelName);
+            return await AdaptiveMediaSource.CreateFromUriAsync(new Uri(streamUrl));
         }
     }
 }
