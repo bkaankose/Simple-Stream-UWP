@@ -47,7 +47,7 @@ namespace Simple_Stream_UWP.ViewModels
         public DelegateCommand<FeaturedGame> GameClickedCommand { get; set; }
 
         #endregion
-        public MainPageViewModel(IDeviceGestureService gestureService,INavigationService navigationService, ITwitchRepository twitchRepository,IPageDialogService dialogService) : base(gestureService,navigationService)
+        public MainPageViewModel(IDeviceGestureService gestureService,INavigationService navigationService, ITwitchRepository twitchRepository,IPageDialogService dialogService,ISessionStateService sessionStateService) : base(gestureService,navigationService, sessionStateService)
         {
             _twitchRepository = twitchRepository;
             _dialogService = dialogService;

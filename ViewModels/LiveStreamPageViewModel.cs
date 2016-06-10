@@ -44,11 +44,10 @@ namespace Simple_Stream_UWP.ViewModels
         #region Commands
 
         #endregion
-        public LiveStreamPageViewModel(IDeviceGestureService gestureService, INavigationService navigationService,ITwitchRepository twitchRepository) : base(gestureService, navigationService)
+
+        public LiveStreamPageViewModel(IDeviceGestureService gestureService, INavigationService navigationService,ITwitchRepository twitchRepository, ISessionStateService sessionStateService) : base(gestureService, navigationService, sessionStateService)
         {
-            _navigationService = navigationService;
-            _twitchRepository = twitchRepository;
-            _gestureService = gestureService;
+            _twitchRepository = twitchRepository;   
         }
 
         public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
