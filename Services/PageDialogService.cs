@@ -41,8 +41,8 @@ namespace Simple_Stream_UWP.Services
 
             isContentDisplaying = true;
             var questionDialog = new MessageDialog(question,title);
-            questionDialog.Commands.Add(new UICommand() { Id = 0, Label = "Evet" });
-            questionDialog.Commands.Add(new UICommand() { Id = 1, Label = "Hayır" });
+            questionDialog.Commands.Add(new UICommand() { Id = 0, Label = "Yes" });
+            questionDialog.Commands.Add(new UICommand() { Id = 1, Label = "No" });
             
             var result = await questionDialog.ShowAsync();
             isContentDisplaying = false;
