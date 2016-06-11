@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CustomMediaTransportControls.cs" />
     <Compile Include="Base\BasePage.cs" />
     <Compile Include="Base\ViewModel.cs" />
     <Compile Include="ConfigurationContext.cs" />
@@ -106,12 +107,15 @@
     </Compile>
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityReverseConverter.cs" />
+    <Compile Include="Converters\CountToVisibilityReverseConverter.cs" />
     <Compile Include="Converters\EmptyStringToVisibilityConverter.cs" />
     <Compile Include="Converters\ItemClickedConverter.cs" />
+    <Compile Include="Converters\MediaElementStretchConverter.cs" />
     <Compile Include="Converters\ZeroIntegerToVisibilityConverter.cs" />
     <Compile Include="Interfaces\ITwitchRepository.cs" />
     <Compile Include="Interfaces\ITwitchService.cs" />
     <Compile Include="Behaviors\MediaStreamSourceBehavior.cs" />
+    <Compile Include="Models\BitrateModel.cs" />
     <Compile Include="Models\BoxLogo.cs" />
     <Compile Include="Models\Channel.cs" />
     <Compile Include="Models\FeaturedGame.cs" />
