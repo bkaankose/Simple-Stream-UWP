@@ -9,5 +9,8 @@
     <converters:BooleanToVisibilityConverter x:Key="boolToVisibility" />
     <converters:BooleanToVisibilityReverseConverter x:Key="boolToVisibilityReverse" />
     <converters:EmptyStringToVisibilityConverter x:Key="emptryStringToVisibility" />
-                                                 <converters:ZeroIntegerToVisibilityConverter x:Key="zeroIntegerToVisibility" />
+    <converters:ZeroIntegerToVisibilityConverter x:Key="zeroIntegerToVisibility" />
+    <converters:CountToVisibilityReverseConverter x:Key="countToVisibilityReverse" />
+    <converters:MediaElementStretchConverter x:Key="stretchConverter" />
+
 </ResourceDictionary>
