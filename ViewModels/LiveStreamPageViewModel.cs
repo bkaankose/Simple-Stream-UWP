@@ -14,6 +14,11 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Simple_Stream_UWP.Behaviors;
 using System.Diagnostics;
+using Windows.UI.ViewManagement;
+using Simple_Stream_UWP.Models;
+using Windows.Graphics.Display;
+using Newtonsoft.Json;
+using Windows.UI.Core;
 
 namespace Simple_Stream_UWP.ViewModels
 {
@@ -26,7 +31,65 @@ namespace Simple_Stream_UWP.ViewModels
         #endregion
 
         #region Properties
-        private string _navigationParameter = string.Empty; // Game name.
+        private StreamInformation _currentStream;
+
+        public StreamInformation CurrentStream
+        {
+            get { return _currentStream; }
+            set { _currentStream = value; OnPropertyChanged(); }
+        }
+
+        private bool _isFullScreen;
+
+        public bool IsFullScreen
+        {
+            get { return _isFullScreen; }
+            set { _isFullScreen = value; OnPropertyChanged(); }
+        }
+
+        private bool _isMediaPlaying;
+
+        public bool IsMediaPlaying
+        {
+            get { return _isMediaPlaying; }
+            set { _isMediaPlaying = value;  OnPropertyChanged(); }
+        }
+
+
+        private bool _isStretched;
+
+        public bool IsStretched
+        {
+            get { return _isStretched; }
+            set { _isStretched = value; OnPropertyChanged(); }
+        }
+
+
+        private bool _isBarsOpen;
+
+        public bool IsBarsOpen
+        {
+            get { return _isBarsOpen; }
+            set { _isBarsOpen = value; OnPropertyChanged(); }
+        }
+
+
+        private ObservableCollection<BitrateModel> _availableBitrates;
+
+        public ObservableCollection<BitrateModel> AvailableBitrates
+        {
+            get { return _availableBitrates; }
+            set { _availableBitrates = value;  }
+        }
+
+        private BitrateModel _selectedBitrate;
+
+        public BitrateModel SelectedBitrate
+        {
+            get { return _selectedBitrate; }
+            set { _selectedBitrate = value; OnPropertyChanged(); }
+        }
+
 
         private AdaptiveMediaSource _mediaSource;
 
@@ -36,39 +99,106 @@ namespace Simple_Stream_UWP.ViewModels
             set
             {
                 _mediaSource = value;
-                OnPropertyChanged();
             }
         }
+
+        private string[] BitrateNames = new string[4] { "Low", "Medium", "High", "Source" };
+
         #endregion
 
         #region Commands
+
+        public DelegateCommand PlayOrPauseCommand { get; set; }
 
         #endregion
 
         public LiveStreamPageViewModel(IDeviceGestureService gestureService, INavigationService navigationService,ITwitchRepository twitchRepository, ISessionStateService sessionStateService) : base(gestureService, navigationService, sessionStateService)
         {
-            _twitchRepository = twitchRepository;   
+            _twitchRepository = twitchRepository;
+            AvailableBitrates = new ObservableCollection<BitrateModel>();
+            PlayOrPauseCommand = new DelegateCommand(PlayOrPause);
+        }
+
+        private void PlayOrPause()
+        {
+            if (IsMediaPlaying)
+                OnPropertyChanged("StopMedia");
+            else
+                OnPropertyChanged("PlayMedia");
+
+            IsMediaPlaying = !IsMediaPlaying;
         }
 
         public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
             base.OnNavigatedTo(e, viewModelState);
-
+            DisplayInformation.AutoRotationPreferences = DisplayOrientations.Landscape;
             if (e.Parameter != null)
-                _navigationParameter = e.Parameter.ToString(); // Get navigated game name parameter.
+                CurrentStream = JsonConvert.DeserializeObject<StreamInformation>(e.Parameter.ToString()); // Get navigated stream object parameter.
 
-            // Initialize streaming.
-            var streamResult = await _twitchRepository.FetchStreamHLS(_navigationParameter);
-            if(streamResult.Status == AdaptiveMediaSourceCreationStatus.Success)
+            // Try to fullscreen.
+            IsFullScreen = ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+
+
+            // Initialize stream in the background thread.
+            this.PropertyChanged += PropChanged;
+            await InitializeStreamByChannelName(CurrentStream.Channel.ChannelName);
+        }
+
+       
+        private async Task InitializeStreamByChannelName(string channelName)
+        {
+            IsBarsOpen = false;
+            var streamResult = await _twitchRepository.FetchStreamHLS(channelName);
+            if (streamResult.Status == AdaptiveMediaSourceCreationStatus.Success)
             {
                 MediaSource = streamResult.MediaSource;
-                foreach (var b in streamResult.MediaSource.AvailableBitrates) // Bitrate info for debugging.
-                    Debug.WriteLine(b);
+                IsMediaPlaying = true;
+
+                for(int i = 0;i < MediaSource.AvailableBitrates.Count - 1;i++) // Load bitrates
+                    AvailableBitrates.Add(new BitrateModel() { OriginalBitrate = MediaSource.AvailableBitrates[i], BitrateName = BitrateNames[i] });
+
+                OnPropertyChanged("MediaSource");
+                OnPropertyChanged("AvailableBitrates");
             }
             else
             {
                 // TODO : Log exception.
             }
+        }
+
+        private void PropChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(IsFullScreen))
+            {
+                if (!IsFullScreen)
+                    ApplicationView.GetForCurrentView().ExitFullScreenMode();
+                else
+                    ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
+            }else if(e.PropertyName == nameof(AvailableBitrates) && AvailableBitrates != null)
+            {
+                SelectedBitrate = AvailableBitrates[AvailableBitrates.Count / 2]; // Pick mid level bitrate by default.
+            }else if(e.PropertyName == nameof(SelectedBitrate) && SelectedBitrate != null)
+            {
+                if(SelectedBitrate.OriginalBitrate > MediaSource.DesiredMinBitrate)
+                {
+                    MediaSource.DesiredMaxBitrate = SelectedBitrate.OriginalBitrate;
+                    MediaSource.DesiredMinBitrate = SelectedBitrate.OriginalBitrate;
+                }else
+                {
+
+                    MediaSource.DesiredMinBitrate = SelectedBitrate.OriginalBitrate;
+                    MediaSource.DesiredMaxBitrate = SelectedBitrate.OriginalBitrate;
+                }
+            }
+        }
+
+        public override void OnNavigatingFrom(NavigatingFromEventArgs e, Dictionary<string, object> viewModelState, bool suspending)
+        {
+            base.OnNavigatingFrom(e, viewModelState, suspending);
+            DisplayInformation.AutoRotationPreferences = DisplayOrientations.None; // Force it to landscape mode.
+            MediaSource = null;
+            OnPropertyChanged("MediaSource");
         }
     }
 }
