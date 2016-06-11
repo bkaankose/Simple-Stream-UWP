@@ -5,12 +5,13 @@ using System;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Newtonsoft.Json;
+using Simple_Stream_UWP.Interfaces;
 
 namespace Simple_Stream_UWP.Controls
 {
     public sealed partial class StreamUserControl : UserControl
     {
-        private StreamInformation currentContext;
         public bool IsOptionsDialogVisible
         {
             get { return (bool)GetValue(IsOptionsDialogVisibleProperty); }
@@ -24,7 +25,6 @@ namespace Simple_Stream_UWP.Controls
         public StreamUserControl()
         {
             this.InitializeComponent();
-            this.Loaded += (c, r) => { currentContext = this.DataContext as StreamInformation; };
         }
 
         private void ThumbnailLoaded(object sender, RoutedEventArgs e)
@@ -50,9 +50,18 @@ namespace Simple_Stream_UWP.Controls
                 control.OptionsDisappearingAnimaton.Begin();
         }
 
-        private void FavoriteChannel(object sender, RoutedEventArgs e) { currentContext.IsFavorited = true; }
-        private void UnfavoriteChannel(object sender, RoutedEventArgs e) { currentContext.IsFavorited = false; }
-        private async void OpenInBrowser(object sender, RoutedEventArgs e) { await Launcher.LaunchUriAsync(new Uri($"http://twitch.tv/{currentContext.Channel?.ChannelName}")); }
-        private void PlayClicked(object sender, RoutedEventArgs e) { App.Current.Container.Resolve<INavigationService>().Navigate("LiveStream", currentContext.Channel.ChannelName); }
+        private void FavoriteChannel(object sender, RoutedEventArgs e) { (this.DataContext as StreamInformation).IsFavorited = true; }
+        private void UnfavoriteChannel(object sender, RoutedEventArgs e) { (this.DataContext as StreamInformation).IsFavorited = false; }
+        private async void OpenInBrowser(object sender, RoutedEventArgs e) { await Launcher.LaunchUriAsync(new Uri($"http://twitch.tv/{(this.DataContext as StreamInformation).Channel?.ChannelName}")); }
+        private async void PlayClicked(object sender, RoutedEventArgs e)
+        {
+            if((this.DataContext as StreamInformation).Channel.IsAgeRestricted.GetValueOrDefault())
+            {
+                var result = await App.Current.Container.Resolve<IPageDialogService>().DisplayConfirmationDialogAsync("This channel may contain violent content. Do you comfirm that you're above 18?","Warning!");
+                if (!result)
+                    return;
+            }
+            App.Current.Container.Resolve<INavigationService>().Navigate("LiveStream", JsonConvert.SerializeObject((this.DataContext as StreamInformation)));
+        }
     }
 }

@@ -23,7 +23,7 @@
             </DoubleAnimationUsingKeyFrames>
         </Storyboard>
     </UserControl.Resources>
-    <Border BorderThickness="0" BorderBrush="Gray" CornerRadius="0,0,7,7">
+    <Border BorderThickness="0" BorderBrush="Gray" MinHeight="250" CornerRadius="0,0,7,7">
         <Grid x:Name="grid">
             <Grid>
                 <Grid.RowDefinitions>
