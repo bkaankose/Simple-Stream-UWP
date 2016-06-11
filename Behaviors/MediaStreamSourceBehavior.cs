@@ -47,11 +47,22 @@ namespace Simple_Stream_UWP.Behaviors
         DependencyPropertyChangedEventArgs e)
         {
             var behavior = sender as MediaStreamSourceBehavior;
-            if (behavior.AssociatedObject == null || e.NewValue == null) return;
+            if (behavior.AssociatedObject == null)
+                return;
 
             var mediaElement = behavior.AssociatedObject as MediaElement;
             if (mediaElement != null)
-                mediaElement.SetMediaStreamSource((AdaptiveMediaSource)e.NewValue);
+            {
+                if(e.NewValue != null)
+                    mediaElement.SetMediaStreamSource((AdaptiveMediaSource)e.NewValue);
+                else
+                {
+                    // Dispose media element.
+                    mediaElement.Source = null;
+                    mediaElement.Stop();
+                    mediaElement = null;
+                }
+            }
         }
     }
 }
