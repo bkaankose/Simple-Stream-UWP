@@ -6,18 +6,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Canvas Background="#1d1d1d">
-        <!-- The real position of these controls will change during runtime -->
-        <Image Stretch="None"
-               x:Name="splashImage"
-               Source="Assets/SplashScreen.png"
-               Canvas.Left="350"
-               Canvas.Top="250" />
-        <ProgressRing x:Name="progressRing"
-                      Height="50"
-                      Width="50"
-                      IsActive="True"
-                      Canvas.Left="650"
-                      Canvas.Top="550" />
-    </Canvas>
+    <Grid Background="White">
+        <Image Source="/Assets/SplashScreen.png" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center"  />
+        <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,50">
+            <ProgressRing IsActive="True"  Width="50" Height="50"  />
+            <TextBlock Text="Loading featured games" Foreground="Black" Margin="0,4" TextAlignment="Center" HorizontalAlignment="Stretch" />
+        </StackPanel>
+    </Grid>
 </Page>

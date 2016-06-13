@@ -32,7 +32,7 @@ namespace Simple_Stream_UWP
                 this.SizeChanged += ExtendedSplashScreen_SizeChanged;
             };
             
-            this.splashImage.ImageOpened += splashImage_ImageOpened;
+            //this.splashImage.ImageOpened += splashImage_ImageOpened;
         }
 
         void splashImage_ImageOpened(object sender, RoutedEventArgs e)
@@ -55,14 +55,14 @@ namespace Simple_Stream_UWP
             // The splash image's not always perfectly centered. Therefore we need to set our image's position 
             // to match the original one to obtain a clean transition between both splash screens.
 
-            this.splashImage.Height = this.splashScreen.ImageLocation.Height;
-            this.splashImage.Width = this.splashScreen.ImageLocation.Width;
+            //this.splashImage.Height = this.splashScreen.ImageLocation.Height;
+            //this.splashImage.Width = this.splashScreen.ImageLocation.Width;
 
-            this.splashImage.SetValue(Canvas.TopProperty, this.splashScreen.ImageLocation.Top);
-            this.splashImage.SetValue(Canvas.LeftProperty, this.splashScreen.ImageLocation.Left);
+            //this.splashImage.SetValue(Canvas.TopProperty, this.splashScreen.ImageLocation.Top);
+            //this.splashImage.SetValue(Canvas.LeftProperty, this.splashScreen.ImageLocation.Left);
 
-            this.progressRing.SetValue(Canvas.TopProperty, this.splashScreen.ImageLocation.Top + this.splashScreen.ImageLocation.Height + 50);
-            this.progressRing.SetValue(Canvas.LeftProperty, this.splashScreen.ImageLocation.Left + this.splashScreen.ImageLocation.Width / 2 - this.progressRing.Width / 2);
+            //this.progressRing.SetValue(Canvas.TopProperty, this.splashScreen.ImageLocation.Top + this.splashScreen.ImageLocation.Height + 50);
+            //this.progressRing.SetValue(Canvas.LeftProperty, this.splashScreen.ImageLocation.Left + this.splashScreen.ImageLocation.Width / 2 - this.progressRing.Width / 2);
         }
     }
 
