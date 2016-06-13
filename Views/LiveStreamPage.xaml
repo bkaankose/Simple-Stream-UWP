@@ -40,7 +40,7 @@
                 <CompositeTransform TranslateY="-75"/>
             </Grid.RenderTransform>
             <!-- Top Bar-->
-            <Grid Background="Black" Opacity="0.8" />
+            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.8" />
             <StackPanel HorizontalAlignment="Center" Margin="0,4">
                 <TextBlock Text="{Binding CurrentStream.Channel.ChannelName,FallbackValue=TrayhopeR}" HorizontalAlignment="Stretch" TextAlignment="Center" FontWeight="SemiBold" FontSize="20" />
                 <TextBlock Text="{Binding CurrentStream.Channel.Status,FallbackValue=Çok zevkli yayın.}" Margin="0,3" HorizontalAlignment="Stretch" TextAlignment="Center" FontFamily="18" />
@@ -56,7 +56,7 @@
                 <CompositeTransform TranslateY="60"/>
             </Grid.RenderTransform>
             <!-- Bottom Bar-->
-            <Grid Background="Black" Opacity="0.8" />
+            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Opacity="0.8" />
             <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
                 <AppBarButton Icon="Play" Command="{Binding PlayOrPauseCommand}" Visibility="{Binding IsMediaPlaying,Converter={StaticResource boolToVisibilityReverse}}" Label="Play" />
                 <AppBarButton Icon="Pause" Command="{Binding PlayOrPauseCommand}" Label="Pause" Visibility="{Binding IsMediaPlaying,Converter={StaticResource boolToVisibility}}" />
@@ -79,7 +79,7 @@
                         </Flyout>
                     </AppBarButton.Flyout>
                 </AppBarButton>
-                <AppBarToggleButton Foreground="#FFFFFFFF" Label="Auto Zoom" IsChecked="{Binding IsStretched,Mode=TwoWay}">
+                <AppBarToggleButton Label="Auto Zoom" IsChecked="{Binding IsStretched,Mode=TwoWay}">
                     <AppBarToggleButton.Icon>
                         <PathIcon HorizontalAlignment="Center" VerticalAlignment="Center" Data="M7.24122524261475,11.8743715286255L8.12497425079346,12.7581186294556 2.13421630859375,18.7500019073486 6.24999046325684,18.7500019073486 6.24999046325684,20 0,20 0,13.7500085830688 1.24999821186066,13.7500085830688 1.24999821186066,17.8667221069336 7.24122524261475,11.8743715286255z M12.758768081665,11.8743562698364L18.7499713897705,17.8667259216309 18.7499713897705,13.7500085830688 19.9999694824219,13.7500085830688 19.9999694824219,20 13.749979019165,20 13.749979019165,18.7500019073486 17.8657779693604,18.7500019073486 11.8749809265137,12.7581043243408 12.758768081665,11.8743562698364z M13.749979019165,0L19.9999694824219,0 19.9999694824219,6.24999046325684 18.7499713897705,6.24999046325684 18.7499713897705,2.1332311630249 12.7587175369263,8.12564182281494 11.8749685287476,7.24188899993896 17.8657054901123,1.24999821186066 13.749979019165,1.24999821186066 13.749979019165,0z M0,0L6.24999046325684,0 6.24999046325684,1.24999821186066 2.13426518440247,1.24999821186066 8.12500190734863,7.24188899993896 7.24125289916992,8.12564182281494 1.24999821186066,2.13323163986206 1.24999821186066,6.24999046325684 0,6.24999046325684 0,0z" />
                     </AppBarToggleButton.Icon>
