@@ -18,13 +18,13 @@
     <base:BasePage.BottomAppBar>
         <CommandBar>
             <CommandBar.PrimaryCommands>
-                <AppBarButton Icon="Zoom" Label="Search">
+                <!--<AppBarButton Icon="Zoom" Label="Search">
                     <AppBarButton.Flyout>
                         <Flyout Placement="Top">
                             <AutoSuggestBox QueryIcon="Forward" Text="{Binding QueryString,Mode=TwoWay}" Width="300" KeyDown="AutoSuggestBox_KeyDown" QuerySubmitted="AutoSuggestBox_QuerySubmitted" PlaceholderText="enter channel name here..." />
                         </Flyout>
                     </AppBarButton.Flyout>
-                </AppBarButton>
+                </AppBarButton>-->
                 <AppBarButton Icon="Refresh" Label="Refresh" Command="{Binding RefreshFeaturedGamesCommand}" />
             </CommandBar.PrimaryCommands>
         </CommandBar>
