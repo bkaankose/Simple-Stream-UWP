@@ -9,6 +9,7 @@ using Simple_Stream_UWP.Models.ServiceModels;
 using System.Collections.ObjectModel;
 using Simple_Stream_UWP.Models;
 using Newtonsoft.Json;
+using Microsoft.Practices.Unity;
 using System.Diagnostics;
 using Newtonsoft.Json.Linq;
 using System.Net;
@@ -49,8 +50,8 @@ namespace Simple_Stream_UWP.Services
             }
             catch (Exception ex)
             {
-                if (Debugger.IsAttached)
-                    throw;
+                //if (Debugger.IsAttached)
+                    //throw;
 
                 response.ExceptionContainer = ex;
                 response.Data = null;
@@ -63,33 +64,90 @@ namespace Simple_Stream_UWP.Services
 
         public async Task<ObservableCollection<FeaturedGame>> GetFeaturedChannels()
         {
+            retry:
             var response =  await FetchDataFromService($"games/top?limit={ConfigurationContext.FEATURED_GAME_COUNT}");
-            dynamic d = JObject.Parse(response.Data.ToString());
-            response.Data = d.top;
-            return ParseResponse<ObservableCollection<FeaturedGame>>(response);
+            if(response.IsSuccess)
+            {
+                dynamic d = JObject.Parse(response.Data.ToString());
+                response.Data = d.top;
+                return ParseResponse<ObservableCollection<FeaturedGame>>(response);
+            }
+            else
+            {
+                var res = await App.Current.Container.Resolve<IPageDialogService>().DisplayConfirmationDialogAsync($"We got an error:\n{response.ExceptionContainer.Message}\nDo you want me to try again?", "Ops");
+                if (res)
+                    goto retry;
+                else
+                    App.Current.Exit();
+
+                return null;
+            }
         }
 
         public async Task<ObservableCollection<StreamInformation>> GetGameDetails(string gameName)
         {
+            retry:
             var response = await FetchDataFromService($"streams?game={gameName}");
-            dynamic d = JObject.Parse(response.Data.ToString());
-            response.Data = d.streams;
-            return ParseResponse<ObservableCollection<StreamInformation>>(response);
+            if(response.IsSuccess)
+            {
+                dynamic d = JObject.Parse(response.Data.ToString());
+                response.Data = d.streams;
+                return ParseResponse<ObservableCollection<StreamInformation>>(response);
+            }
+            else
+            {
+                var res = await App.Current.Container.Resolve<IPageDialogService>().DisplayConfirmationDialogAsync($"We got an error:\n{response.ExceptionContainer.Message}\nDo you want me to try again?", "Ops");
+                if (res)
+                    goto retry;
+                else
+                    App.Current.Exit();
+
+                return null;
+            }
         }
 
         public async Task<TwitchToken> GetStreamToken(string channelName)
         {
+            retry:
             string tokenResponse = string.Empty;
-            using (var newHttpClient = new HttpClient())
+            try
             {
-                tokenResponse = await newHttpClient.GetStringAsync($"http://api.twitch.tv/api/channels/{channelName}/access_token");
+                using (var newHttpClient = new HttpClient())
+                {
+                    tokenResponse = await newHttpClient.GetStringAsync($"http://api.twitch.tv/api/channels/{channelName}/access_token");
+                }
             }
+            catch (Exception ex)
+            {
+                var res = await App.Current.Container.Resolve<IPageDialogService>().DisplayConfirmationDialogAsync($"We got an error:\n{ex.Message}\nDo you want me to try again?", "Ops");
+                if (res)
+                    goto retry;
+                else
+                    App.Current.Exit();
+
+                return null;
+            }
+            
             return JsonConvert.DeserializeObject<TwitchToken>(tokenResponse);
         }
         public async Task<string> FetchStreamURL(string channelName)
         {
-            var token = await GetStreamToken(channelName);
-            return $"http://usher.justin.tv/api/channel/hls/{channelName.ToLower()}.m3u8?token={WebUtility.UrlEncode(token.ValidToken)}&sig={token.Sig}&allow_source=true";
+            try
+            {
+                var token = await GetStreamToken(channelName);
+                if (token == null)
+                {
+                    App.Current.Exit();
+                    return null;
+                }
+                else
+                    return $"http://usher.justin.tv/api/channel/hls/{channelName.ToLower()}.m3u8?token={WebUtility.UrlEncode(token.ValidToken)}&sig={token.Sig}&allow_source=true";
+            }
+            catch (Exception)
+            {
+                App.Current.Exit();
+                return null;
+            }
         }
     }
 }

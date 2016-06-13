@@ -44,6 +44,9 @@ namespace Simple_Stream_UWP.Services
         public async Task<AdaptiveMediaSourceCreationResult> FetchStreamHLS(string channelName)
         {
             var streamUrl = await _twitchService.FetchStreamURL(channelName);
+            if (string.IsNullOrEmpty(streamUrl))
+                App.Current.Exit();
+
             return await AdaptiveMediaSource.CreateFromUriAsync(new Uri(streamUrl));
         }
     }

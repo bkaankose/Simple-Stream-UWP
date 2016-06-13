@@ -150,6 +150,11 @@ namespace Simple_Stream_UWP.ViewModels
         {
             IsBarsOpen = false;
             var streamResult = await _twitchRepository.FetchStreamHLS(channelName);
+            if(streamResult == null)
+            {
+                App.Current.Exit();
+                return;
+            }
             if (streamResult.Status == AdaptiveMediaSourceCreationStatus.Success)
             {
                 MediaSource = streamResult.MediaSource;
