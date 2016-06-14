@@ -11,6 +11,8 @@ namespace Simple_Stream_UWP.Interfaces
 {
     public interface ITwitchRepository
     {
+        ObservableCollection<StreamInformation> GetLatestLoadedGames();
+        void SetLatestLoadedGames(ObservableCollection<StreamInformation> games);
         Task<ObservableCollection<FeaturedGame>> GetFeaturedGames();
         Task ReloadFeaturedGames();
         Task<ObservableCollection<StreamInformation>> GetGameDetails(string gameName);

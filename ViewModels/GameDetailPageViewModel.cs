@@ -72,6 +72,7 @@ namespace Simple_Stream_UWP.ViewModels
             // Loading mechanism could be better.
             IsBusy = true; 
             StreamInformations = await _twitchRepository.GetGameDetails(_currentGameName);
+            _twitchRepository.SetLatestLoadedGames(StreamInformations);
             IsBusy = false;
 
             // Store latest loaded game for caching.

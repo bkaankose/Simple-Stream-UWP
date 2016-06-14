@@ -63,8 +63,10 @@ namespace Simple_Stream_UWP.ViewModels
         public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
             base.OnNavigatedTo(e, viewModelState);
+
             if (e.NavigationMode == Windows.UI.Xaml.Navigation.NavigationMode.Back)
                 return;
+
             FeaturedGames = await _twitchRepository.GetFeaturedGames();
         }
         

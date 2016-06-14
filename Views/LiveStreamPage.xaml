@@ -12,7 +12,10 @@
     xmlns:behaviors="using:Simple_Stream_UWP.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    ManipulationMode="TranslateX"
+    ManipulationCompleted="root_ManipulationCompleted"
     mc:Ignorable="d">
+    
     <base:BasePage.Resources>
         <Storyboard x:Name="openBarsStoryBoard">
             <DoubleAnimation Duration="0:0:0.3" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="grid" d:IsOptimized="True">

@@ -31,6 +31,16 @@ namespace Simple_Stream_UWP.ViewModels
         #endregion
 
         #region Properties
+
+        private ObservableCollection<StreamInformation> _streamFlow;
+
+        public ObservableCollection<StreamInformation> StreamFlow
+        {
+            get { return _streamFlow; }
+            set { _streamFlow = value; OnPropertyChanged(); }
+        }
+
+
         private StreamInformation _currentStream;
 
         public StreamInformation CurrentStream
@@ -129,16 +139,35 @@ namespace Simple_Stream_UWP.ViewModels
             IsMediaPlaying = !IsMediaPlaying;
         }
 
+        public async Task SwipeChannel(bool toRight)
+        {
+            var currentChannelIndex = StreamFlow.IndexOf(StreamFlow.FirstOrDefault(a => a.Channel.ChannelId.Equals(CurrentStream.Channel.ChannelId)));
+            bool changed = false;
+            if(toRight && StreamFlow.Count - 1 != currentChannelIndex)
+            { // Get next channel from right.
+                CurrentStream = StreamFlow[currentChannelIndex + 1];
+                changed = true;
+            }else if(!toRight && currentChannelIndex != 0)
+            { // Get previous channel from left.
+                CurrentStream = StreamFlow[currentChannelIndex - 1];
+                changed = true;
+            }
+
+            if(CurrentStream != null && changed)
+                await InitializeStreamByChannelName(CurrentStream.Channel.ChannelName);
+        }
+
         public override async void OnNavigatedTo(NavigatedToEventArgs e, Dictionary<string, object> viewModelState)
         {
             base.OnNavigatedTo(e, viewModelState);
             DisplayInformation.AutoRotationPreferences = DisplayOrientations.Landscape;
+            StreamFlow = _twitchRepository.GetLatestLoadedGames();
+
             if (e.Parameter != null)
                 CurrentStream = JsonConvert.DeserializeObject<StreamInformation>(e.Parameter.ToString()); // Get navigated stream object parameter.
 
             // Try to fullscreen.
             IsFullScreen = ApplicationView.GetForCurrentView().TryEnterFullScreenMode();
-
 
             // Initialize stream in the background thread.
             this.PropertyChanged += PropChanged;
@@ -149,6 +178,12 @@ namespace Simple_Stream_UWP.ViewModels
         private async Task InitializeStreamByChannelName(string channelName)
         {
             IsBarsOpen = false;
+            if(MediaSource != null)
+            {
+                MediaSource = null;
+                OnPropertyChanged("StopMedia");
+            }
+
             var streamResult = await _twitchRepository.FetchStreamHLS(channelName);
             if(streamResult == null)
             {
@@ -159,6 +194,11 @@ namespace Simple_Stream_UWP.ViewModels
             {
                 MediaSource = streamResult.MediaSource;
                 IsMediaPlaying = true;
+
+                if (AvailableBitrates != null)
+                    AvailableBitrates.Clear();
+                else
+                    AvailableBitrates = new ObservableCollection<BitrateModel>();
 
                 for(int i = 0;i < MediaSource.AvailableBitrates.Count - 1;i++) // Load bitrates
                     AvailableBitrates.Add(new BitrateModel() { OriginalBitrate = MediaSource.AvailableBitrates[i], BitrateName = BitrateNames[i] });

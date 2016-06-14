@@ -15,6 +15,7 @@ namespace Simple_Stream_UWP.Services
         #region Cache Properties
 
         private ObservableCollection<FeaturedGame> FeaturedGames;
+        private ObservableCollection<StreamInformation> LatestLoadedGameObjects;
 
         #endregion
         internal ITwitchService _twitchService;
@@ -36,6 +37,11 @@ namespace Simple_Stream_UWP.Services
             FeaturedGames = await _twitchService.GetFeaturedChannels();
         }
 
+        public ObservableCollection<StreamInformation> GetLatestLoadedGames()
+        {
+            return LatestLoadedGameObjects;
+        }
+
         public async Task<ObservableCollection<StreamInformation>> GetGameDetails(string gameName)
         {
             return await _twitchService.GetGameDetails(gameName);
@@ -48,6 +54,11 @@ namespace Simple_Stream_UWP.Services
                 App.Current.Exit();
 
             return await AdaptiveMediaSource.CreateFromUriAsync(new Uri(streamUrl));
+        }
+
+        public void SetLatestLoadedGames(ObservableCollection<StreamInformation> games)
+        {
+            LatestLoadedGameObjects = games;
         }
     }
 }

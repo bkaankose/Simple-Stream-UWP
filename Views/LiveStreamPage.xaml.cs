@@ -46,10 +46,22 @@ namespace Simple_Stream_UWP.Views
                     hideBarsStoryBoard.Begin();
             }
         }
-
+        
         private void ScreenTapped(object sender, TappedRoutedEventArgs e)
         {
             ViewModel.IsBarsOpen = !ViewModel.IsBarsOpen;
+        }
+        
+        private async void root_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            if(e.Cumulative.Translation.X > 150) // Swipe right
+            {
+                await ViewModel.SwipeChannel(false);
+            }
+            else if(e.Cumulative.Translation.X < -150) // Swipe left.
+            {
+                await ViewModel.SwipeChannel(true);
+            }
         }
     }
 }
